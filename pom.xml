@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.memoeslink</groupId>
     <artifactId>helper</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <name>helper</name>
     <description>A Java library that provides utility to several classes.</description>
     <url>https://github.com/memoeslink/helper</url>
@@ -117,4 +117,34 @@
         <developerConnection>scm:git:ssh://github.com/memoeslink/helper.git</developerConnection>
         <url>https://github.com/memoeslink/helper/tree/master</url>
     </scm>
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                </repository>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/memoeslink/helper</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>ossrh</id>
+            <repositories>
+                <repository>
+                    <id>ossrh</id>
+                    <name>OSSRH</name>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </project>
