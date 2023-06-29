@@ -40,6 +40,6 @@ jobs:
           java-version: '19'
           distribution: 'temurin'
       - name: Publish to GitHub Packages
-        run: mvn --batch-mode deploy
+        run: mvn --batch-mode deploy -Dmaven.main.skip=true
         env:
           GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
