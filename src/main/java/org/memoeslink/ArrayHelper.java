@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class ArrayHelper {
 
+    private ArrayHelper() {
+    }
+
     public static <T> boolean isNullOrEmpty(T[] elements) {
         return elements == null || elements.length == 0;
     }

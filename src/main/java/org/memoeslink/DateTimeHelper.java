@@ -10,6 +10,9 @@ public class DateTimeHelper {
     public static final String ISO_8601_DATE_PATTERN = "yyyy-MM-dd";
     public static final String ISO_8601_TIME_PATTERN = "HH:mm:ssZ";
 
+    private DateTimeHelper() {
+    }
+
     public static LocalDateTime getCurrentDateTime() {
         return LocalDateTime.now();
     }

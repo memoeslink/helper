@@ -18,6 +18,9 @@ public class Validation {
     private static final String YYYY_MM_DD_DATE_REGEX = "^[0-9]{4,}\\D?[0-9]{2}\\D?[0-9]{2}$";
     private static final Pattern YYYY_MM_DD_DATE_PATTERN = Pattern.compile(YYYY_MM_DD_DATE_REGEX);
 
+    private Validation() {
+    }
+
     /**
      * Verifies if a string is a valid email address.
      * Examples: example@mail.com, test.email@sample-domain.com.

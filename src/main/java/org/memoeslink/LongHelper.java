@@ -2,6 +2,9 @@ package org.memoeslink;
 
 public class LongHelper {
 
+    private LongHelper() {
+    }
+
     public static Long getSeed(String s) {
         if (StringHelper.isNullOrEmpty(s))
             return null;

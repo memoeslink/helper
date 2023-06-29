@@ -14,6 +14,9 @@ public class StringHelper {
     public static final String EMPTY = "";
     public static final String DEFAULT_VALUE = "?";
 
+    private StringHelper() {
+    }
+
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.length() == 0;
     }
