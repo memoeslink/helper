@@ -117,27 +117,4 @@
         <developerConnection>scm:git:ssh://github.com/memoeslink/helper.git</developerConnection>
         <url>https://github.com/memoeslink/helper/tree/master</url>
     </scm>
-
-    <profiles>
-        <profile>
-            <id>test-repository</id>
-            <repositories>
-                <repository>
-                    <id>github</id>
-                    <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/memoeslink/helper</url>
-                </repository>
-            </repositories>
-        </profile>
-        <profile>
-            <id>prod-repository</id>
-            <repositories>
-                <repository>
-                    <id>ossrh</id>
-                    <name>OSSRH</name>
-                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
 </project>
