@@ -41,13 +41,13 @@
     <servers>
         <server>
             <id>github</id>
-            <username>${env.GITHUB_ACTOR}</username>
+            <username>memoeslink</username>
             <password>${env.GITHUB_TOKEN}</password>
         </server>
         <server>
             <id>ossrh</id>
-            <username>${secrets.OSSRH_USERNAME}</username>
-            <password>${secrets.OSSRH_TOKEN}</password>
+            <username>${env.MAVEN_USERNAME}</username>
+            <password>${env.MAVEN_PASSWORD}</password>
         </server>
     </servers>
 </settings>
