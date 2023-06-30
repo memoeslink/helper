@@ -1682,6 +1682,12 @@ public class StringHelper {
         return null;
     }
 
+    public static String getUnicode(char c) {
+        if (c != CharHelper.NULL_CHAR)
+            return String.format("\\u%04x", (int) c);
+        return null;
+    }
+
     public static String getCharacter(String... codePoints) {
         StringBuilder sb = new StringBuilder();
 

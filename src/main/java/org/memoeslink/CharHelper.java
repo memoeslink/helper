@@ -1,8 +1,5 @@
 package org.memoeslink;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
 public class CharHelper {
     public static final char NULL_CHAR = '\0';
     public static final char EMPTY_CHAR = '\u0000';
@@ -20,7 +17,7 @@ public class CharHelper {
 
     public static char defaultIfNull(char c) {
         if (c == NULL_CHAR)
-            return Character.SPACE_SEPARATOR;
+            return EMPTY_CHAR;
         else return c;
     }
 
@@ -91,40 +88,6 @@ public class CharHelper {
         if (c == NULL_CHAR)
             return false;
         return Character.isSpaceChar(c);
-    }
-
-    public static boolean isPrintable(char c) {
-        Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-        return (!Character.isISOControl(c)) &&
-                block != null &&
-                block != Character.UnicodeBlock.SPECIALS;
-    }
-
-    public static boolean isCharDisplayableInFont(char c) {
-        if (c == NULL_CHAR || Character.isWhitespace(c))
-            return false;
-        Graphics g = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getGraphics();
-        Font font = new Font(g.getFont().toString(), Font.PLAIN, 5);
-        g.dispose();
-        return font.canDisplay(c);
-    }
-
-    public static boolean isGlyphDisplayable(char c) {
-        return isPrintable(c) && isCharDisplayableInFont(c);
-    }
-
-    public static char getFirstDisplayableGlyph(char... chars) {
-        for (char c : chars) {
-            if (isGlyphDisplayable(c))
-                return c;
-        }
-        return '\0';
-    }
-
-    public static String getUnicode(char c) {
-        if (c == NULL_CHAR)
-            return StringHelper.EMPTY;
-        return String.format("\\u%04x", (int) c);
     }
 
     public static char getHexDigit(int value) {

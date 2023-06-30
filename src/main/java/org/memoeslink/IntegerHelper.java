@@ -38,7 +38,15 @@ public class IntegerHelper {
         return n < min ? min : max;
     }
 
-    public static int tryParseInt(String s, int defaultValue) {
+    public static Integer tryParse(String s) {
+        try {
+            return Integer.valueOf(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static int tryParse(String s, int defaultValue) {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException e) {
@@ -47,15 +55,7 @@ public class IntegerHelper {
     }
 
     public static int tryParseOrZero(String s) {
-        return tryParseInt(s, 0);
-    }
-
-    public static Integer tryParseOrNull(String s) {
-        try {
-            return Integer.valueOf(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        return tryParse(s, 0);
     }
 
     public static int countDigits(int n) {
