@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringHelper {
+    public static final int INDEX_NOT_FOUND = -1;
     public static final String EMPTY = "";
     public static final String DEFAULT_VALUE = "?";
 
@@ -39,11 +40,11 @@ public class StringHelper {
 
     public static int indexOf(String s, String occurrence) {
         if (isNullOrEmpty(s))
-            return IntegerHelper.INDEX_NOT_FOUND;
+            return INDEX_NOT_FOUND;
         return s.indexOf(occurrence);
     }
 
-    public static String defaultWhenNull(String s) {
+    public static String defaultOnNull(String s) {
         return defaultIfNull(s, DEFAULT_VALUE);
     }
 
@@ -57,7 +58,7 @@ public class StringHelper {
         return s;
     }
 
-    public static String defaultWhenEmpty(String s) {
+    public static String defaultOnEmpty(String s) {
         return defaultIfEmpty(s, DEFAULT_VALUE);
     }
 
@@ -71,7 +72,7 @@ public class StringHelper {
         return s;
     }
 
-    public static String defaultWhenBlank(String s) {
+    public static String defaultOnBlank(String s) {
         return defaultIfBlank(s, DEFAULT_VALUE);
     }
 
@@ -134,48 +135,30 @@ public class StringHelper {
     }
 
     public static String prependIfNotNull(String s, String prefix) {
+        return prependIfNotNull(s, prefix, EMPTY);
+    }
+
+    public static String prependIfNotNull(String s, String prefix, String defaultPrefix) {
         if (s == null)
             return null;
-        return defaultIfNull(prefix) + s;
+        return defaultIfNull(prefix, defaultPrefix) + s;
     }
 
     public static String prependIfNotEmpty(String s, String prefix) {
+        return prependIfNotEmpty(s, prefix, EMPTY);
+    }
+
+    public static String prependIfNotEmpty(String s, String prefix, String defaultPrefix) {
         if (isNullOrEmpty(s))
             return s;
-        return defaultIfNull(prefix) + s;
+        return defaultIfNull(prefix, defaultPrefix) + s;
     }
 
     public static String prependIfNotBlank(String s, String prefix) {
-        if (isNullOrBlank(s))
-            return s;
-        return defaultIfNull(prefix) + s;
+        return prependIfNotBlank(s, prefix, EMPTY);
     }
 
-    public static String prependEvenDefaultIfNotNull(String s, String prefix) {
-        return prependEvenDefaultIfNotNull(s, prefix, DEFAULT_VALUE);
-    }
-
-    public static String prependEvenDefaultIfNotEmpty(String s, String prefix) {
-        return prependEvenDefaultIfNotEmpty(s, prefix, DEFAULT_VALUE);
-    }
-
-    public static String prependEvenDefaultIfNotBlank(String s, String prefix) {
-        return prependEvenDefaultIfNotBlank(s, prefix, DEFAULT_VALUE);
-    }
-
-    public static String prependEvenDefaultIfNotNull(String s, String prefix, String defaultPrefix) {
-        if (s == null)
-            return null;
-        return defaultIfNull(prefix, defaultPrefix) + s;
-    }
-
-    public static String prependEvenDefaultIfNotEmpty(String s, String prefix, String defaultPrefix) {
-        if (isNullOrEmpty(s))
-            return s;
-        return defaultIfNull(prefix, defaultPrefix) + s;
-    }
-
-    public static String prependEvenDefaultIfNotBlank(String s, String prefix, String defaultPrefix) {
+    public static String prependIfNotBlank(String s, String prefix, String defaultPrefix) {
         if (isNullOrBlank(s))
             return s;
         return defaultIfNull(prefix, defaultPrefix) + s;
@@ -218,48 +201,30 @@ public class StringHelper {
     }
 
     public static String appendIfNotNull(String s, String suffix) {
+        return appendIfNotNull(s, suffix, EMPTY);
+    }
+
+    public static String appendIfNotNull(String s, String suffix, String defaultSuffix) {
         if (s == null)
             return null;
-        return s + defaultIfNull(suffix);
+        return s + defaultIfNull(suffix, defaultSuffix);
     }
 
     public static String appendIfNotEmpty(String s, String suffix) {
+        return appendIfNotEmpty(s, suffix, EMPTY);
+    }
+
+    public static String appendIfNotEmpty(String s, String suffix, String defaultSuffix) {
         if (isNullOrEmpty(s))
             return s;
-        return s + defaultIfNull(suffix);
+        return s + defaultIfNull(suffix, defaultSuffix);
     }
 
     public static String appendIfNotBlank(String s, String suffix) {
-        if (isNullOrBlank(s))
-            return s;
-        return s + defaultIfNull(suffix);
+        return appendIfNotBlank(s, suffix, EMPTY);
     }
 
-    public static String appendEvenDefaultIfNotNull(String s, String suffix) {
-        return appendEvenDefaultIfNotNull(s, suffix, DEFAULT_VALUE);
-    }
-
-    public static String appendEvenDefaultIfNotEmpty(String s, String suffix) {
-        return appendEvenDefaultIfNotEmpty(s, suffix, DEFAULT_VALUE);
-    }
-
-    public static String appendEvenDefaultIfNotBlank(String s, String suffix) {
-        return appendEvenDefaultIfNotBlank(s, suffix, DEFAULT_VALUE);
-    }
-
-    public static String appendEvenDefaultIfNotNull(String s, String suffix, String defaultSuffix) {
-        if (s == null)
-            return null;
-        return s + defaultIfNull(suffix, defaultSuffix);
-    }
-
-    public static String appendEvenDefaultIfNotEmpty(String s, String suffix, String defaultSuffix) {
-        if (isNullOrEmpty(s))
-            return s;
-        return s + defaultIfNull(suffix, defaultSuffix);
-    }
-
-    public static String appendEvenDefaultIfNotBlank(String s, String suffix, String defaultSuffix) {
+    public static String appendIfNotBlank(String s, String suffix, String defaultSuffix) {
         if (isNullOrBlank(s))
             return s;
         return s + defaultIfNull(suffix, defaultSuffix);
@@ -302,48 +267,30 @@ public class StringHelper {
     }
 
     public static String affixIfNotNull(String s, String prefix, String suffix) {
+        return affixIfNotNull(s, prefix, suffix, EMPTY, EMPTY);
+    }
+
+    public static String affixIfNotNull(String s, String prefix, String suffix, String defaultPrefix, String defaultSuffix) {
         if (s == null)
             return null;
-        return defaultIfNull(prefix) + s + defaultIfNull(suffix);
+        return defaultIfNull(prefix, defaultPrefix) + s + defaultIfNull(suffix, defaultSuffix);
     }
 
     public static String affixIfNotEmpty(String s, String prefix, String suffix) {
+        return affixIfNotEmpty(s, prefix, suffix, EMPTY, EMPTY);
+    }
+
+    public static String affixIfNotEmpty(String s, String prefix, String suffix, String defaultPrefix, String defaultSuffix) {
         if (isNullOrEmpty(s))
             return s;
-        return defaultIfNull(prefix) + s + defaultIfNull(suffix);
+        return defaultIfNull(prefix, defaultPrefix) + s + defaultIfNull(suffix, defaultSuffix);
     }
 
     public static String affixIfNotBlank(String s, String prefix, String suffix) {
-        if (isNullOrBlank(s))
-            return s;
-        return defaultIfNull(prefix) + s + defaultIfNull(suffix);
+        return affixIfNotBlank(s, prefix, suffix, EMPTY, EMPTY);
     }
 
-    public static String affixEvenDefaultIfNotNull(String s, String prefix, String suffix) {
-        return affixEvenDefaultIfNotNull(s, prefix, suffix, DEFAULT_VALUE, DEFAULT_VALUE);
-    }
-
-    public static String affixEvenDefaultIfNotEmpty(String s, String prefix, String suffix) {
-        return affixEvenDefaultIfNotEmpty(s, prefix, suffix, DEFAULT_VALUE, DEFAULT_VALUE);
-    }
-
-    public static String affixEvenDefaultIfNotBlank(String s, String prefix, String suffix) {
-        return affixEvenDefaultIfNotBlank(s, prefix, suffix, DEFAULT_VALUE, DEFAULT_VALUE);
-    }
-
-    public static String affixEvenDefaultIfNotNull(String s, String prefix, String suffix, String defaultPrefix, String defaultSuffix) {
-        if (s == null)
-            return null;
-        return defaultIfNull(prefix, defaultPrefix) + s + defaultIfNull(suffix, defaultSuffix);
-    }
-
-    public static String affixEvenDefaultIfNotEmpty(String s, String prefix, String suffix, String defaultPrefix, String defaultSuffix) {
-        if (isNullOrEmpty(s))
-            return s;
-        return defaultIfNull(prefix, defaultPrefix) + s + defaultIfNull(suffix, defaultSuffix);
-    }
-
-    public static String affixEvenDefaultIfNotBlank(String s, String prefix, String suffix, String defaultPrefix, String defaultSuffix) {
+    public static String affixIfNotBlank(String s, String prefix, String suffix, String defaultPrefix, String defaultSuffix) {
         if (isNullOrBlank(s))
             return s;
         return defaultIfNull(prefix, defaultPrefix) + s + defaultIfNull(suffix, defaultSuffix);
@@ -680,12 +627,60 @@ public class StringHelper {
         return s == null ? EMPTY : s.trim();
     }
 
-    public static String trimToDefault(String s) {
-        return defaultWhenEmpty(trimToEmpty(s));
+    public static String trimOrDefault(String s) {
+        return trimOrDefault(s, DEFAULT_VALUE);
     }
 
-    public static String trimToDefault(String s, String defaultValue) {
+    public static String trimOrDefault(String s, String defaultValue) {
         return defaultIfEmpty(trimToEmpty(s), defaultValue);
+    }
+
+    public static String strip(String s) {
+        return s == null ? null : s.strip();
+    }
+
+    public static String stripToNull(String s) {
+        s = strip(s);
+        return isNullOrEmpty(s) ? null : s;
+    }
+
+    public static String stripToEmpty(String s) {
+        return s == null ? EMPTY : s.strip();
+    }
+
+    public static String stripOrDefault(String s) {
+        return stripOrDefault(s, DEFAULT_VALUE);
+    }
+
+    public static String stripOrDefault(String s, String defaultValue) {
+        return defaultIfEmpty(stripToEmpty(s), defaultValue);
+    }
+
+    public static String stripStart(String s) {
+        if (isNullOrEmpty(s))
+            return s;
+        int index = 0;
+
+        while (Character.isWhitespace(s.charAt(index))) {
+            index++;
+        }
+        return s.substring(index);
+    }
+
+    public static String stripEnd(String s) {
+        if (isNullOrEmpty(s))
+            return s;
+        int index = 0;
+
+        while (Character.isWhitespace(s.charAt(index))) {
+            index++;
+        }
+        return s.substring(0, index);
+    }
+
+    public static String stripIndent(String s) {
+        s = stripStart(s);
+        return stripEnd(s);
     }
 
     public static String normalize(String s) {
@@ -860,7 +855,7 @@ public class StringHelper {
             return EMPTY;
         final int index = s.indexOf(separator);
 
-        if (index == IntegerHelper.INDEX_NOT_FOUND)
+        if (index == INDEX_NOT_FOUND)
             return s;
         return s.substring(0, index);
     }
@@ -870,10 +865,10 @@ public class StringHelper {
             return null;
         int start = s.indexOf(open);
 
-        if (start != IntegerHelper.INDEX_NOT_FOUND) {
+        if (start != INDEX_NOT_FOUND) {
             final int end = s.indexOf(close, start + open.length());
 
-            if (end != IntegerHelper.INDEX_NOT_FOUND)
+            if (end != INDEX_NOT_FOUND)
                 return s.substring(start + open.length(), end);
         }
         return null;
@@ -887,7 +882,7 @@ public class StringHelper {
             return EMPTY;
         final int index = s.indexOf(separator);
 
-        if (index == IntegerHelper.INDEX_NOT_FOUND)
+        if (index == INDEX_NOT_FOUND)
             return EMPTY;
         return s.substring(index + separator.length());
     }
@@ -1306,7 +1301,7 @@ public class StringHelper {
             return s;
         int n = s.lastIndexOf(separator);
 
-        if (n == IntegerHelper.INDEX_NOT_FOUND)
+        if (n == INDEX_NOT_FOUND)
             return s;
         return s.substring(0, n);
     }
@@ -1316,7 +1311,7 @@ public class StringHelper {
             return s;
         int n = s.lastIndexOf(separator);
 
-        if (n == IntegerHelper.INDEX_NOT_FOUND || n == s.length() - separator.length())
+        if (n == INDEX_NOT_FOUND || n == s.length() - separator.length())
             return s;
         return s.substring(n + 1);
     }
