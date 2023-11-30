@@ -9,6 +9,10 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class Validation {
+    public static final String NAME_REGEX = "^\\p{L}+[\\p{L}\\p{Z}\\p{M}\\-.,'ªº]*$";
+    public static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
+    public static final String USERNAME_REGEX = "^[\\w\\-.]+$";
+    public static final Pattern USERNAME_PATTERN = Pattern.compile(USERNAME_REGEX);
     private static final String PHONE_REGEX = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$";
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
     private static final String HEX_COLOR_REGEX = "^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$";
@@ -19,6 +23,41 @@ public class Validation {
     private static final Pattern YYYY_MM_DD_DATE_PATTERN = Pattern.compile(YYYY_MM_DD_DATE_REGEX);
 
     private Validation() {
+    }
+
+    /**
+     * Verifies if a string is a valid name.
+     * Examples: John Doe, Laureen Kesner-Graver, José de la Cruz Nuñez.
+     *
+     * @param name the string containing the name
+     * @return true if the pattern is met, false otherwise
+     */
+    public static boolean isName(String name) {
+        return NAME_PATTERN.matcher(name).matches();
+    }
+
+    /**
+     * Verifies if a string is a valid username.
+     * Examples: user2000, GreenRobot, doom_master
+     *
+     * @param username the string containing the username
+     * @return true if the pattern is met, false otherwise
+     */
+    public static boolean isUsername(String username) {
+        return NAME_PATTERN.matcher(username).matches();
+    }
+
+    /**
+     * Verifies if a string is a valid username within a length range.
+     * Examples: user2000, GreenRobot, doom_master
+     *
+     * @param username  the string containing the username
+     * @param minLength the minimum username length
+     * @param maxLength the maximum username length
+     * @return true if the pattern is met and the length is within the range, false otherwise
+     */
+    public static boolean isUsername(String username, int minLength, int maxLength) {
+        return NAME_PATTERN.matcher(username).matches() && IntegerHelper.isBetween(username.length(), minLength, maxLength);
     }
 
     /**
