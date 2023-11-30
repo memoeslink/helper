@@ -16,6 +16,6 @@ To use this library with Maven, you can use this in your pom.xml:
    <dependency>
      <groupId>io.github.memoeslink</groupId>
      <artifactId>helper</artifactId>
-     <version>1.1.4</version>
+     <version>1.1.5</version>
    </dependency>
 ```
