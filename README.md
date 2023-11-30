@@ -7,7 +7,7 @@ A Java library with some utilities for several classes.
 To use this library with Gradle, include this line of code in your build.gradle:
 
 ```
-implementation 'io.github.memoeslink:helper:1.1.4'
+implementation 'io.github.memoeslink:helper:1.1.5'
 ```
 
 To use this library with Maven, you can use this in your pom.xml:
