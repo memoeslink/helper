@@ -19,6 +19,8 @@ public class Validation {
     private static final Pattern HEX_COLOR_PATTERN = Pattern.compile(HEX_COLOR_REGEX);
     private static final String UTF_REGEX = "^U\\+[0-9A-Fa-f]{4,5}$";
     private static final Pattern UTF_PATTERN = Pattern.compile(UTF_REGEX);
+    private static final String LOCALE_REGEX = "^[a-z]{2}([_-][A-Z]{2})?$";
+    private static final Pattern LOCALE_PATTERN = Pattern.compile(LOCALE_REGEX);
     private static final String YYYY_MM_DD_DATE_REGEX = "^[0-9]{4,}\\D?[0-9]{2}\\D?[0-9]{2}$";
     private static final Pattern YYYY_MM_DD_DATE_PATTERN = Pattern.compile(YYYY_MM_DD_DATE_REGEX);
 
@@ -44,7 +46,7 @@ public class Validation {
      * @return true if the pattern is met, false otherwise
      */
     public static boolean isUsername(String username) {
-        return NAME_PATTERN.matcher(username).matches();
+        return USERNAME_PATTERN.matcher(username).matches();
     }
 
     /**
@@ -115,6 +117,18 @@ public class Validation {
      */
     public static boolean isUtf(String utf) {
         if (StringHelper.isNotNullOrBlank(utf)) return UTF_PATTERN.matcher(utf).matches();
+        return false;
+    }
+
+    /**
+     * Verifies if a string has a locale format.
+     * Examples: es, en-US, pt_BR
+     *
+     * @param locale the string containing the locale
+     * @return true if the pattern is met, false otherwise
+     */
+    public static boolean isLocale(String locale) {
+        if (StringHelper.isNotNullOrBlank(locale)) return LOCALE_PATTERN.matcher(locale).matches();
         return false;
     }
 
