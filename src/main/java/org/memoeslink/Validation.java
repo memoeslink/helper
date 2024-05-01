@@ -1,25 +1,26 @@
 package org.memoeslink;
 
-import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.commons.validator.routines.UrlValidator;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class Validation {
-    public static final String NAME_REGEX = "^\\p{L}+[\\p{L}\\p{Z}\\p{M}\\-.,'ªº]*$";
-    public static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
-    public static final String USERNAME_REGEX = "^[\\w\\-.]+$";
-    public static final Pattern USERNAME_PATTERN = Pattern.compile(USERNAME_REGEX);
-    private static final String PHONE_REGEX = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$";
+    private static final String NAME_REGEX = "^\\p{L}+[\\p{L}\\p{Z}\\p{M}\\-.,'ªº]*$";
+    private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
+    private static final String USERNAME_REGEX = "^[\\w\\-.]+$";
+    private static final Pattern USERNAME_PATTERN = Pattern.compile(USERNAME_REGEX);
+    private static final String EMAIL_REGEX = "^([\\p{L}0-9-_.%+]+){1,64}@[\\p{L}0-9]+([-.][\\p{L}0-9]+)*\\.[a-zA-Z]{2,}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+    private static final String URL_REGEX = "^((https?://)?([a-zA-Z0-9-]+\\.)?[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})*(/[\\w\\-.~:?#@!$&'()*+,;=\\[\\]]*)*|(ftp|ftps|sftp)?://(\\S+(:\\S+)?@)?[\\w-./]+:(\\d+)?(/\\S*)?)$";
+    private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
+    private static final String PHONE_REGEX = "^((\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3}))?[- .]?\\d{3,4}[- .]?\\d{4}$";
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
     private static final String HEX_COLOR_REGEX = "^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$";
     private static final Pattern HEX_COLOR_PATTERN = Pattern.compile(HEX_COLOR_REGEX);
     private static final String UTF_REGEX = "^U\\+[0-9A-Fa-f]{4,5}$";
     private static final Pattern UTF_PATTERN = Pattern.compile(UTF_REGEX);
-    private static final String LOCALE_REGEX = "^[a-z]{2}([_-][A-Z]{2})?$";
+    private static final String LOCALE_REGEX = "^[a-zA-Z]{2,4}([_-][a-zA-Z]{4})?([_-]([a-zA-Z]{2}|[0-9]{3}))?$";
     private static final Pattern LOCALE_PATTERN = Pattern.compile(LOCALE_REGEX);
     private static final String YYYY_MM_DD_DATE_REGEX = "^[0-9]{4,}\\D?[0-9]{2}\\D?[0-9]{2}$";
     private static final Pattern YYYY_MM_DD_DATE_PATTERN = Pattern.compile(YYYY_MM_DD_DATE_REGEX);
@@ -32,10 +33,11 @@ public class Validation {
      * Examples: John Doe, Laureen Kesner-Graver, José de la Cruz Nuñez.
      *
      * @param name the string containing the name
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isName(String name) {
-        return NAME_PATTERN.matcher(name).matches();
+        if (StringHelper.isNotNullOrBlank(name)) return NAME_PATTERN.matcher(name).matches();
+        return false;
     }
 
     /**
@@ -43,10 +45,11 @@ public class Validation {
      * Examples: user2000, GreenRobot, doom_master
      *
      * @param username the string containing the username
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isUsername(String username) {
-        return USERNAME_PATTERN.matcher(username).matches();
+        if (StringHelper.isNotNullOrBlank(username)) return USERNAME_PATTERN.matcher(username).matches();
+        return false;
     }
 
     /**
@@ -56,10 +59,12 @@ public class Validation {
      * @param username  the string containing the username
      * @param minLength the minimum username length
      * @param maxLength the maximum username length
-     * @return true if the pattern is met and the length is within the range, false otherwise
+     * @return {@code true} if the pattern is met and the length is within the range, {@code false} otherwise
      */
     public static boolean isUsername(String username, int minLength, int maxLength) {
-        return NAME_PATTERN.matcher(username).matches() && IntegerHelper.isBetween(username.length(), minLength, maxLength);
+        if (StringHelper.isNotNullOrBlank(username))
+            return USERNAME_PATTERN.matcher(username).matches() && IntegerHelper.isBetween(username.length(), minLength, maxLength);
+        return false;
     }
 
     /**
@@ -67,10 +72,11 @@ public class Validation {
      * Examples: example@mail.com, test.email@sample-domain.com.
      *
      * @param email the string containing the email address
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isEmailAddress(String email) {
-        return EmailValidator.getInstance().isValid(email);
+        if (StringHelper.isNotNullOrBlank(email)) return EMAIL_PATTERN.matcher(email).matches();
+        return false;
     }
 
     /**
@@ -78,10 +84,11 @@ public class Validation {
      * Examples: www.test.com, https://www.google.com/.
      *
      * @param url the string containing the URL address
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isUrl(String url) {
-        return UrlValidator.getInstance().isValid(url);
+        if (StringHelper.isNotNullOrBlank(url)) return URL_PATTERN.matcher(url).matches();
+        return false;
     }
 
     /**
@@ -90,11 +97,16 @@ public class Validation {
      * Examples: +52 (449) 100 9999, 33-0000-9999, 5500001234.
      *
      * @param phone the string containing the phone number
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isPhone(String phone) {
-        if (StringHelper.isNotNullOrBlank(phone)) return PHONE_PATTERN.matcher(phone).matches();
-        return false;
+        if (StringHelper.isNullOrBlank(phone)) return false;
+
+        if (!PHONE_PATTERN.matcher(phone).matches()) {
+            phone = RegexFilter.removeSpace(phone);
+            return PHONE_PATTERN.matcher(phone).matches();
+        }
+        return true;
     }
 
     /**
@@ -102,7 +114,7 @@ public class Validation {
      * "#FFFFFF", "#FFFFFFFF", or using lowercase.
      *
      * @param color the string containing the color
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isHexColor(String color) {
         if (StringHelper.isNotNullOrBlank(color)) return HEX_COLOR_PATTERN.matcher(color.toLowerCase()).matches();
@@ -113,7 +125,7 @@ public class Validation {
      * Verifies if a string is a UTF character.
      *
      * @param utf the string containing the character
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isUtf(String utf) {
         if (StringHelper.isNotNullOrBlank(utf)) return UTF_PATTERN.matcher(utf).matches();
@@ -125,7 +137,7 @@ public class Validation {
      * Examples: es, en-US, pt_BR
      *
      * @param locale the string containing the locale
-     * @return true if the pattern is met, false otherwise
+     * @return {@code true} if the pattern is met, {@code false} otherwise
      */
     public static boolean isLocale(String locale) {
         if (StringHelper.isNotNullOrBlank(locale)) return LOCALE_PATTERN.matcher(locale).matches();
@@ -137,7 +149,7 @@ public class Validation {
      * "yyyy/MM/dd" (2000/01/31), "yyyyMMdd" (20000131), or similar.
      *
      * @param strDate the string containing the date
-     * @return true if any pattern is met and the date is valid, false otherwise
+     * @return {@code true} if any pattern is met and the date is valid, {@code false} otherwise
      */
     public static boolean isDate(String strDate) {
         return isYyyyMmDdDate(strDate) || isIsoDate(strDate);
@@ -145,12 +157,14 @@ public class Validation {
 
     /**
      * Verifies if a string is a date with the ISO 8601 format,
-     * which includes "yyyy-MM-dd" (2000-01-31), and "yyyyMMdd" (20000131).
+     * which includes "yyyy-MM-dd" (2000-01-31) and "yyyyMMdd" (20000131).
      *
      * @param strDate the string containing the date
-     * @return true if pattern is met and the date is valid, false otherwise
+     * @return {@code true} if pattern is met and the date is valid, {@code false} otherwise
      */
     public static boolean isIsoDate(String strDate) {
+        if (StringHelper.isNullOrBlank(strDate)) return false;
+
         try {
             LocalDate.parse(strDate, DateTimeFormatter.ISO_DATE);
             return true;
@@ -167,10 +181,11 @@ public class Validation {
 
     /**
      * Verifies if a string is a date with the format "yyyy-MM-dd" (2000-01-31),
-     * "yyyy/MM/dd" (2000/01/31), "yyyyMMdd" (20000131), or similar.
+     * "yyyy/MM/dd" (2000/01/31), "yyyyMMdd" (20000131), or similar, provided
+     * that the year is between 1581 and 2500.
      *
      * @param strDate the string containing the date
-     * @return true if pattern is met and the date is valid, false otherwise
+     * @return {@code true} if pattern is met and the date is valid, {@code false} otherwise
      */
     public static boolean isYyyyMmDdDate(String strDate) {
         if (StringHelper.isNullOrBlank(strDate) || strDate.length() < "yyyyMMdd".length() || !YYYY_MM_DD_DATE_PATTERN.matcher(strDate).matches())
