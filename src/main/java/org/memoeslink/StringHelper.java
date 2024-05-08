@@ -1067,7 +1067,7 @@ public class StringHelper {
 
         for (String s : strings) {
             if (isNotNullOrEmpty(s)) {
-                if (!sb.isEmpty()) sb.append(separator);
+                if (sb.length() > 0) sb.append(separator);
                 sb.append(s);
             }
         }
@@ -1885,11 +1885,11 @@ public class StringHelper {
 
                 switch (caseStyle) {
                     case PASCAL_CASE, PASCAL_SNAKE_CASE, TRAIN_CASE -> {
-                        if (sb.isEmpty() || CharHelper.isDelimiter(prevChar)) sb.append(Character.toUpperCase(c));
+                        if (sb.length() == 0 || CharHelper.isDelimiter(prevChar)) sb.append(Character.toUpperCase(c));
                         else sb.append(Character.toLowerCase(c));
                     }
                     case CAMEL_CASE, CAMEL_SNAKE_CASE -> {
-                        if (!sb.isEmpty() && CharHelper.isDelimiter(prevChar)) sb.append(Character.toUpperCase(c));
+                        if (sb.length() > 0 && CharHelper.isDelimiter(prevChar)) sb.append(Character.toUpperCase(c));
                         else sb.append(Character.toLowerCase(c));
                     }
                     case SNAKE_CASE, KEBAB_CASE, FLAT_CASE -> sb.append(Character.toLowerCase(c));
