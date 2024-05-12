@@ -2592,7 +2592,7 @@ public class StringHelper {
      * @param valuesMap a map containing tag-value pairs
      * @return the string with all tags replaced by their corresponding values from the map
      */
-    static String replaceTags(String s, Map<String, String> valuesMap) {
+    public static String replaceTags(String s, Map<String, String> valuesMap) {
         if (isNullOrEmpty(s) || valuesMap == null) return s;
         StringBuilder sb = new StringBuilder(s);
 

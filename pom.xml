@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.memoeslink</groupId>
     <artifactId>helper</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <name>helper</name>
     <description>A Java library that provides utility to several classes.</description>
     <url>https://github.com/memoeslink/helper</url>
