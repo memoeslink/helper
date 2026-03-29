@@ -118,8 +118,7 @@ public class StringValidation {
     }
 
     /**
-     * Checks if the string contains at least one alphabetic character. Alphabetic characters
-     * include letters without regard to case.
+     * Checks if the string contains at least one alphabetic character.
      *
      * @param s the string to check
      * @return {@code true} if the string contains at least one alphabetic character; otherwise, {@code false}
@@ -232,8 +231,8 @@ public class StringValidation {
 
     /**
      * Determines if the string contains at least one consonant that does not form part of a cluster.
-     * A non-cluster consonant is one that stands alone without adjacent consonants in the string, this means,
-     * any character from {@link CharHelper#NON_CLUSTER_CONSONANTS}.
+     * A non-cluster consonant is one that stands alone without adjacent consonants in the string.
+     * This means, any character from {@link CharHelper#NON_CLUSTER_CONSONANTS}.
      *
      * @param s the string to check
      * @return {@code true} if the string contains at least one non-cluster consonant; otherwise, {@code false}
@@ -571,7 +570,6 @@ public class StringValidation {
 
     /**
      * Checks if the string does not contain any alphabetic character.
-     * Alphabetic characters include letters without regard to case.
      *
      * @param s the string to check
      * @return {@code true} if the string does not contain any alphabetic character; otherwise, {@code false}
@@ -679,8 +677,8 @@ public class StringValidation {
 
     /**
      * Determines if the string does not contain any non-cluster consonant.
-     * A non-cluster consonant is one that stands alone without adjacent consonants in the string, this means,
-     * any character from {@link CharHelper#NON_CLUSTER_CONSONANTS}.
+     * A non-cluster consonant is one that stands alone without adjacent consonants in the string.
+     * This means, any character from {@link CharHelper#NON_CLUSTER_CONSONANTS}.
      *
      * @param s the string to check
      * @return {@code true} if the string does not contain any non-cluster consonant; otherwise, {@code false}
@@ -1015,7 +1013,6 @@ public class StringValidation {
 
     /**
      * Checks if all characters in the string are alphabetic characters.
-     * Alphabetic characters include letters without regard to case.
      *
      * @param s the string to check
      * @return {@code true} if all characters in the string are alphabetic characters; otherwise, {@code false}
@@ -1123,8 +1120,8 @@ public class StringValidation {
 
     /**
      * Determines if all characters in the string are non-cluster consonants.
-     * A non-cluster consonant is one that stands alone without adjacent consonants in the string, this means,
-     * any character from {@link CharHelper#NON_CLUSTER_CONSONANTS}.
+     * A non-cluster consonant is one that stands alone without adjacent consonants in the string.
+     * This means, any character from {@link CharHelper#NON_CLUSTER_CONSONANTS}.
      *
      * @param s the string to check
      * @return {@code true} if all characters in the string are non-cluster consonants; otherwise, {@code false}

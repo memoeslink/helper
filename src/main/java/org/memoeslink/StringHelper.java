@@ -216,6 +216,8 @@ public class StringHelper {
      * @return the first non-null string, or the specified default value if all strings are {@code null}
      */
     public static String getFirstNonNullOrDefault(String defaultValue, String... strings) {
+        if (strings == null) return defaultValue;
+
         for (String s : strings) {
             if (s != null) return s;
         }
@@ -230,6 +232,8 @@ public class StringHelper {
      * @return the first string that is not {@code null} or empty, or the specified default value if all strings are {@code null} or empty
      */
     public static String getFirstNonEmptyOrDefault(String defaultValue, String... strings) {
+        if (strings == null) return defaultValue;
+
         for (String s : strings) {
             if (isNotNullOrEmpty(s)) return s;
         }
@@ -244,6 +248,8 @@ public class StringHelper {
      * @return the first string that is not {@code null} or blank, or the specified default value if all strings are {@code null} or blank
      */
     public static String getFirstNonBlankOrDefault(String defaultValue, String... strings) {
+        if (strings == null) return defaultValue;
+
         for (String s : strings) {
             if (isNotNullOrBlank(s)) return s;
         }
@@ -826,7 +832,7 @@ public class StringHelper {
 
     /**
      * Wraps the given string in quotation marks if it is not {@code null} or blank.
-     * Uses “ and ” as the quotation marks to enclose the string.
+     * Uses <strong>{@literal “}</strong> and <strong>{@literal ”}</strong> as the quotation marks to enclose the string.
      *
      * @param s the string to be quoted
      * @return the quoted string if {@code s} is not {@code null} or blank; otherwise, returns the original string
@@ -958,7 +964,7 @@ public class StringHelper {
     }
 
     /**
-     * Splits a string into an array of substrings using a space character as the delimiter.
+     * Splits a string into an array of substrings using a space (\u0020) as the delimiter.
      *
      * @param s the string to be split
      * @return an array of substrings split from the input string
@@ -968,7 +974,17 @@ public class StringHelper {
     }
 
     /**
-     * Splits a string into an array of substrings using a hyphen character as the delimiter.
+     * Splits a string into an array of substrings using whitespace as the delimiter.
+     *
+     * @param s the string to be split
+     * @return an array of substrings split from the input string
+     */
+    public static String[] splitByWhitespace(String s) {
+        return split(s, "\\s+");
+    }
+
+    /**
+     * Splits a string into an array of substrings using a hyphen as the delimiter.
      *
      * @param s the string to be split
      * @return an array of substrings split from the input string
@@ -988,33 +1004,36 @@ public class StringHelper {
     }
 
     /**
-     * Splits a string into an array of substrings using the paragraph mark (¶) followed by optional spaces as the delimiter.
+     * Splits a string into an array of substrings using a paragraph mark (¶) as the delimiter.
+     * The paragraph mark and any surrounding spaces are removed during the split.
      *
      * @param s the string to be split
      * @return an array of substrings split from the input string
      */
     public static String[] splitByParagraphMark(String s) {
-        return split(s, "¶[ ]*");
+        return split(s, "[ ]*¶[ ]*");
     }
 
     /**
-     * Splits a string into an array of substrings using a comma followed by optional spaces as the delimiter.
+     * Splits a string into an array of substrings using a comma as the delimiter.
+     * The comma and any surrounding spaces are removed during the split.
      *
      * @param s the string to be split
      * @return an array of substrings split from the input string
      */
     public static String[] splitByComma(String s) {
-        return split(s, ",[ ]*");
+        return split(s, "[ ]*,[ ]*");
     }
 
     /**
-     * Splits a string into an array of substrings using a tab character followed by optional spaces as the delimiter.
+     * Splits a string into an array of substrings using a tab (\t) as the delimiter.
+     * The tab and any surrounding spaces are removed during the split.
      *
      * @param s the string to be split
      * @return an array of substrings split from the input string
      */
     public static String[] splitByTab(String s) {
-        return split(s, "\t[ ]*");
+        return split(s, "[ ]*\t[ ]*");
     }
 
     /**
@@ -1062,6 +1081,7 @@ public class StringHelper {
      * @return a single string composed of all the elements in {@code strings}, separated by {@code separator}
      */
     public static String join(String separator, String... strings) {
+        if (strings == null) return null;
         StringBuilder sb = new StringBuilder();
         separator = defaultIfNull(separator);
 
@@ -1839,7 +1859,7 @@ public class StringHelper {
 
     /**
      * Transforms the case of a string to a specified format. The function supports various case styles
-     * typically used in programming such as camelCase, PascalCase, snake_case, and others. This method
+     * typically used in programming, such as camelCase, PascalCase, snake_case, and others. This method
      * is useful for standardizing string formats for code identifiers or data processing.
      * <p>
      * Supported Naming Conventions:
@@ -1998,7 +2018,7 @@ public class StringHelper {
 
     /**
      * Masks the middle characters of a given string with asterisks, depending on the string's length.
-     * Utilizes different masking rules based on the string length:
+     * Uses different masking rules based on the string length:
      * <ul>
      * <li>If length ≤ 4, replaces all characters.</li>
      * <li>If length between 5 and 8, masks all except the first and last characters.</li>
@@ -2015,7 +2035,7 @@ public class StringHelper {
 
     /**
      * Masks the middle characters of a given string using a specified replacement character, depending on the string's length.
-     * Utilizes different masking rules based on the string length:
+     * Uses different masking rules based on the string length:
      * <ul>
      * <li>If length ≤ 4, replaces all characters.</li>
      * <li>If length between 5 and 8, masks all except the first and last characters.</li>
@@ -2245,7 +2265,7 @@ public class StringHelper {
 
     /**
      * Replaces all occurrences of a substring within a string with another substring.
-     * This is a legacy method that was used before the optimizations in Java 11.
+     * This is a legacy method used before the optimizations in Java 11.
      *
      * @param s           the original string
      * @param occurrence  the substring to find and replace
@@ -2471,6 +2491,8 @@ public class StringHelper {
      * @return the string with the start replaced if it matches any of the prefixes, or the original string otherwise
      */
     public static String replaceAnyStart(String s, String replacement, String... prefixes) {
+        if (prefixes == null) return s;
+
         for (String prefix : prefixes) {
             if (startsWith(s, prefix)) return replaceStart(s, prefix, replacement);
         }
@@ -2478,7 +2500,7 @@ public class StringHelper {
     }
 
     /**
-     * Iteratively replaces the start of the string with the corresponding replacement if it matches
+     * Replaces the start of the string with the corresponding replacement if it matches
      * any of the given prefixes.
      *
      * @param s            the original string
@@ -2520,6 +2542,8 @@ public class StringHelper {
      * @return the string with the end replaced if it matches any of the suffixes, or the original string otherwise
      */
     public static String replaceAnyEnd(String s, String replacement, String... suffixes) {
+        if (suffixes == null) return s;
+
         for (String suffix : suffixes) {
             if (endsWith(s, suffix)) return replaceEnd(s, suffix, replacement);
         }
@@ -2527,7 +2551,7 @@ public class StringHelper {
     }
 
     /**
-     * Iteratively replaces the end of the string with the corresponding replacement if it matches
+     * Replaces the end of the string with the corresponding replacement if it matches
      * any of the given suffixes.
      *
      * @param s            the original string
@@ -2555,23 +2579,22 @@ public class StringHelper {
      * @param replacement the string to replace the content between the delimiters
      * @return the modified string, or the original if any of the delimiters is {@code null}
      */
-    public static String replaceBetweenChars(String s, char opening, char closing, String replacement) {
+    public static String replaceBetweenDelimiters(String s, char opening, char closing, String replacement) {
         if (CharHelper.isNull(opening) || CharHelper.isNull(closing)) return s;
         String regex = String.format("\\Q%1$s\\E.*?\\Q%2$s\\E", opening, closing);
         return replaceAll(s, regex, opening + replacement + closing);
     }
 
     /**
-     * Replaces the content between two instances of the same delimiter character in a string,
-     * while keeping the delimiters.
+     * Replaces the content between two instances of the same delimiter character in a string, while keeping the delimiters.
      *
      * @param s           the original string
      * @param delimiter   the character that acts as both the opening and closing delimiter
      * @param replacement the string to replace the content between the delimiters
      * @return the modified string, or the original if the delimiter is {@code null}
      */
-    public static String replaceBetweenChars(String s, char delimiter, String replacement) {
-        return replaceBetweenChars(s, delimiter, delimiter, replacement);
+    public static String replaceBetweenDelimiters(String s, char delimiter, String replacement) {
+        return replaceBetweenDelimiters(s, delimiter, delimiter, replacement);
     }
 
     /**
@@ -2582,7 +2605,45 @@ public class StringHelper {
      * @return the modified string with content within parentheses replaced
      */
     public static String replaceBetweenParentheses(String s, String replacement) {
-        return replaceBetweenChars(s, '(', ')', replacement);
+        return replaceBetweenDelimiters(s, '(', ')', replacement);
+    }
+
+    /**
+     * Replaces the content between two specific characters in a string, including the delimiters.
+     *
+     * @param s           the original string
+     * @param opening     the opening delimiter character
+     * @param closing     the closing delimiter character
+     * @param replacement the string to replace the content within the delimiters
+     * @return the modified string, or the original if any of the delimiters is {@code null}
+     */
+    public static String replaceWithinDelimiters(String s, char opening, char closing, String replacement) {
+        if (CharHelper.isNull(opening) || CharHelper.isNull(closing)) return s;
+        String regex = String.format("\\Q%1$s\\E.*?\\Q%2$s\\E", opening, closing);
+        return replaceAll(s, regex, replacement);
+    }
+
+    /**
+     * Replaces the content between two instances of the same delimiter character in a string, including the delimiters.
+     *
+     * @param s           the original string
+     * @param delimiter   the character that acts as both the opening and closing delimiter
+     * @param replacement the string to replace the content within the delimiters
+     * @return the modified string, or the original if the delimiter is {@code null}
+     */
+    public static String replaceWithinDelimiters(String s, char delimiter, String replacement) {
+        return replaceWithinDelimiters(s, delimiter, delimiter, replacement);
+    }
+
+    /**
+     * Replaces the content between parentheses in a string, including the parentheses.
+     *
+     * @param s           the original string
+     * @param replacement the string to replace the content within the parentheses
+     * @return the modified string
+     */
+    public static String replaceWithinParentheses(String s, String replacement) {
+        return replaceWithinDelimiters(s, '(', ')', replacement);
     }
 
     /**
@@ -2807,6 +2868,39 @@ public class StringHelper {
     }
 
     /**
+     * Removes the content between two specific characters in a string, while keeping the delimiters.
+     *
+     * @param s       the original string
+     * @param opening the opening delimiter character
+     * @param closing the closing delimiter character
+     * @return the modified string, or the original if any of the delimiters is {@code null}
+     */
+    public static String removeBetweenDelimiters(String s, char opening, char closing) {
+        return replaceBetweenDelimiters(s, opening, closing, EMPTY);
+    }
+
+    /**
+     * Removes the content between two instances of the same delimiter character in a string, while keeping the delimiters.
+     *
+     * @param s         the original string
+     * @param delimiter the character that acts as both the opening and closing delimiter
+     * @return the modified string, or the original if the delimiter is {@code null}
+     */
+    public static String removeBetweenDelimiters(String s, char delimiter) {
+        return replaceBetweenDelimiters(s, delimiter, delimiter, EMPTY);
+    }
+
+    /**
+     * Removes the content between parentheses in a string, while keeping the parentheses.
+     *
+     * @param s the original string
+     * @return the modified string with content within parentheses removed
+     */
+    public static String removeBetweenParentheses(String s) {
+        return replaceBetweenParentheses(s, EMPTY);
+    }
+
+    /**
      * Removes the content between two specific characters in a string, including the delimiters.
      *
      * @param s       the original string
@@ -2815,9 +2909,7 @@ public class StringHelper {
      * @return the modified string, or the original if any of the delimiters is {@code null}
      */
     public static String removeWithinDelimiters(String s, char opening, char closing) {
-        if (CharHelper.isNull(opening) || CharHelper.isNull(closing)) return s;
-        String regex = String.format("\\Q%1$s\\E.*?\\Q%2$s\\E", opening, closing);
-        return s.replaceAll(regex, EMPTY);
+        return replaceWithinDelimiters(s, opening, closing, EMPTY);
     }
 
     /**
@@ -2828,17 +2920,17 @@ public class StringHelper {
      * @return the modified string, or the original if the delimiter is {@code null}
      */
     public static String removeWithinDelimiters(String s, char delimiter) {
-        return removeWithinDelimiters(s, delimiter, delimiter);
+        return replaceWithinDelimiters(s, delimiter, delimiter, EMPTY);
     }
 
     /**
      * Removes the content between parentheses in a string, including the parentheses.
      *
      * @param s the original string
-     * @return the modified string
+     * @return the modified string with content within parentheses removed
      */
     public static String removeWithinParentheses(String s) {
-        return removeWithinDelimiters(s, '(', ')');
+        return replaceWithinParentheses(s, EMPTY);
     }
 
     /**
@@ -2917,7 +3009,7 @@ public class StringHelper {
 
     /**
      * Returns the substring of {@code s} that occurs before the last occurrence of the specified separator.
-     * If the separator is not found, returns the original string.
+     * If the separator is not found, it returns the original string.
      *
      * @param s         the string to search
      * @param separator the string to search for
@@ -2934,7 +3026,7 @@ public class StringHelper {
 
     /**
      * Returns the substring of {@code s} that occurs after the last occurrence of the specified separator.
-     * If the separator is not found or is at the end of the string, returns the original string.
+     * If the separator is not found or is at the end of the string, it returns the original string.
      *
      * @param s         the string to search
      * @param separator the string to search for
@@ -2961,11 +3053,11 @@ public class StringHelper {
     }
 
     /**
-     * Checks if two strings are equal ignoring case, considering {@code null} values.
+     * Checks if two strings are equal in a case-insensitive manner, considering {@code null} values.
      *
      * @param a the first string
      * @param b the second string
-     * @return {@code true} if the strings are equal ignoring case, {@code false} otherwise
+     * @return {@code true} if the strings are equal in a case-insensitive manner, {@code false} otherwise
      */
     public static boolean equalsIgnoreCase(String a, String b) {
         if (a == null || b == null) return equals(a, b);
@@ -2980,7 +3072,7 @@ public class StringHelper {
      * @return {@code true} if the string is equal to any of the specified occurrences, {@code false} otherwise
      */
     public static boolean equalsAny(String s, String... occurrences) {
-        if (s == null) return false;
+        if (s == null || occurrences == null) return false;
 
         for (String occurrence : occurrences) {
             if (equals(s, occurrence)) return true;
@@ -3031,6 +3123,8 @@ public class StringHelper {
      * @return {@code true} if the string starts with any of the specified characters, {@code false} otherwise
      */
     public static boolean startsWithAny(String s, char... chars) {
+        if (chars == null) return false;
+
         for (char c : chars) {
             if (startsWith(s, c)) return true;
         }
@@ -3045,6 +3139,8 @@ public class StringHelper {
      * @return {@code true} if the string starts with any of the specified prefixes, {@code false} otherwise
      */
     public static boolean startsWithAny(String s, String... prefixes) {
+        if (prefixes == null) return false;
+
         for (String prefix : prefixes) {
             if (startsWith(s, prefix)) return true;
         }
@@ -3083,6 +3179,8 @@ public class StringHelper {
      * @return {@code true} if the string ends with any of the specified characters, {@code false} otherwise
      */
     public static boolean endsWithAny(String s, char... chars) {
+        if (chars == null) return false;
+
         for (char c : chars) {
             if (endsWith(s, c)) return true;
         }
@@ -3097,6 +3195,8 @@ public class StringHelper {
      * @return {@code true} if the string ends with any of the specified suffixes, {@code false} otherwise
      */
     public static boolean endsWithAny(String s, String... suffixes) {
+        if (suffixes == null) return false;
+
         for (String suffix : suffixes) {
             if (endsWith(s, suffix)) return true;
         }
@@ -3133,7 +3233,7 @@ public class StringHelper {
      * @return {@code true} if any of the characters are found in the string, {@code false} otherwise
      */
     public static boolean hasAny(String s, char... chars) {
-        if (isNullOrEmpty(s)) return false;
+        if (isNullOrEmpty(s) || chars == null) return false;
 
         for (char character : chars) {
             for (char c : s.toCharArray()) {
@@ -3151,7 +3251,7 @@ public class StringHelper {
      * @return {@code true} if any of the affixes are found in the string, {@code false} otherwise
      */
     public static boolean hasAny(String s, String... affixes) {
-        if (isNullOrEmpty(s) || ArrayHelper.isNullOrEmpty(affixes)) return false;
+        if (isNullOrEmpty(s) || affixes == null) return false;
 
         for (String affix : affixes) {
             if (affix != null && s.contains(affix)) return true;
@@ -3205,11 +3305,11 @@ public class StringHelper {
     /**
      * Unescapes a string that contains standard Java escape sequences.
      * <ul>
-     *     <li><strong>&#92;b &#92;f &#92;n &#92;r &#92;t &#92;" &#92;'</strong> :
+     *     <li><strong>&#92;b &#92;f &#92;n &#92;r &#92;t &#92;" &#92;'</strong>:
      *     BS, FF, NL, CR, TAB, double and single quote.</li>
-     *     <li><strong>&#92;X &#92;XX &#92;XXX</strong> : Octal character
+     *     <li><strong>&#92;X &#92;XX &#92;XXX</strong>: Octal character
      *     specification (0 - 377, 0x00 - 0xFF).</li>
-     *     <li><strong>&#92;uXXXX</strong> : Hexadecimal based Unicode character.</li>
+     *     <li><strong>&#92;uXXXX</strong>: Hexadecimal-based Unicode character.</li>
      * </ul>
      *
      * @param st a string optionally containing standard java escape sequences
@@ -3288,6 +3388,7 @@ public class StringHelper {
      * @return the string constructed from the code points
      */
     public static String getCharacter(String... codePoints) {
+        if (codePoints == null) return null;
         StringBuilder sb = new StringBuilder();
 
         for (String codePoint : codePoints) {

@@ -47,6 +47,8 @@ public class CharHelper {
      * @return {@code true} if {@code c} matches any of the provided characters, otherwise {@code false}
      */
     public static boolean equalsAny(char c, char... chars) {
+        if (chars == null) return false;
+
         for (char character : chars) {
             if (c == character) return true;
         }
@@ -232,20 +234,20 @@ public class CharHelper {
     }
 
     /**
-     * Checks if the given character is either a letter or a whitespace.
+     * Checks if the given character is either a letter or whitespace.
      *
      * @param c the character to check
-     * @return {@code true} if {@code c} is either a letter or a whitespace, otherwise {@code false}
+     * @return {@code true} if {@code c} is either a letter or whitespace, otherwise {@code false}
      */
     public static boolean isLetterOrWhitespace(char c) {
         return isLetterOrWhitespace((int) c);
     }
 
     /**
-     * Checks if the given character is either a letter or a whitespace.
+     * Checks if the given character is either a letter or whitespace.
      *
      * @param c the character to check
-     * @return {@code true} if {@code c} is either a letter or a whitespace, otherwise {@code false}
+     * @return {@code true} if {@code c} is either a letter or whitespace, otherwise {@code false}
      */
     public static boolean isLetterOrWhitespace(int c) {
         return !isNull(c) && (Character.isLetter(c) || Character.isWhitespace(c));
@@ -272,20 +274,20 @@ public class CharHelper {
     }
 
     /**
-     * Checks if the given character is either a letter, a digit or a whitespace.
+     * Checks if the given character is either a letter, a digit, or whitespace.
      *
      * @param c the character to check
-     * @return {@code true} if {@code c} is a letter, a digit or a whitespace, otherwise {@code false}
+     * @return {@code true} if {@code c} is a letter, a digit, or whitespace, otherwise {@code false}
      */
     public static boolean isLetterDigitOrWhitespace(char c) {
         return isLetterDigitOrWhitespace((int) c);
     }
 
     /**
-     * Checks if the given character is either a letter, a digit or a whitespace.
+     * Checks if the given character is either a letter, a digit, or whitespace.
      *
      * @param c the character to check
-     * @return {@code true} if {@code c} is a letter, a digit or a whitespace, otherwise {@code false}
+     * @return {@code true} if {@code c} is a letter, a digit, or whitespace, otherwise {@code false}
      */
     public static boolean isLetterDigitOrWhitespace(int c) {
         return Character.isLetterOrDigit(c) || Character.isWhitespace(c);
@@ -312,20 +314,20 @@ public class CharHelper {
     }
 
     /**
-     * Checks if the given character is either alphabetic or a whitespace.
+     * Checks if the given character is either alphabetic or whitespace.
      *
      * @param c the character to check
-     * @return {@code true} if {@code c} is either alphabetic or a whitespace, otherwise {@code false}
+     * @return {@code true} if {@code c} is either alphabetic or whitespace, otherwise {@code false}
      */
     public static boolean isAlphabeticOrWhitespace(char c) {
         return isAlphabeticOrWhitespace((int) c);
     }
 
     /**
-     * Checks if the given character is either alphabetic or a whitespace.
+     * Checks if the given character is either alphabetic or whitespace.
      *
      * @param c the character to check
-     * @return {@code true} if {@code c} is either alphabetic or a whitespace, otherwise {@code false}
+     * @return {@code true} if {@code c} is either alphabetic or whitespace, otherwise {@code false}
      */
     public static boolean isAlphabeticOrWhitespace(int c) {
         return Character.isAlphabetic(c) || Character.isWhitespace(c);
@@ -461,7 +463,7 @@ public class CharHelper {
 
     /**
      * Checks if the given character is considered a global letter.
-     * Global letters include both unaccented and certain accented letters from various languages.
+     * Global letters include both unaccented and specific accented letters from various languages.
      *
      * @param c the character to check
      * @return {@code true} if {@code c} is a letter from {@link #GLOBAL_LETTERS}, otherwise {@code false}
@@ -472,7 +474,7 @@ public class CharHelper {
 
     /**
      * Checks if the given character is considered a global letter.
-     * Global letters include both unaccented and certain accented letters from various languages.
+     * Global letters include both unaccented and specific accented letters from various languages.
      *
      * @param c the character to check
      * @return {@code true} if {@code c} is a letter from {@link #GLOBAL_LETTERS}, otherwise {@code false}
@@ -505,7 +507,7 @@ public class CharHelper {
 
     /**
      * Checks if the given character is considered a global vowel.
-     * Global vowels include both unaccented and certain accented vowels from various languages.
+     * Global vowels include both unaccented and specific accented vowels from various languages.
      *
      * @param c the character to check
      * @return {@code true} if {@code c} is a vowel from {@link #GLOBAL_VOWELS}, otherwise {@code false}
@@ -516,7 +518,7 @@ public class CharHelper {
 
     /**
      * Checks if the given character is considered a global vowel.
-     * Global vowels include both unaccented and certain accented vowels from various languages.
+     * Global vowels include both unaccented and specific accented vowels from various languages.
      *
      * @param c the character to check
      * @return {@code true} if {@code c} is a vowel from {@link #GLOBAL_VOWELS}, otherwise {@code false}
@@ -907,7 +909,7 @@ public class CharHelper {
      * This includes alphabetic characters ('a' to 'z', 'A' to 'Z') and whitespaces.
      *
      * @param c the character to check
-     * @return {@code true} if the character is an ASCII alphabetic character or a whitespace, {@code false} otherwise
+     * @return {@code true} if the character is an ASCII alphabetic character or whitespace, {@code false} otherwise
      */
     public static boolean isAsciiAlphaOrWhitespace(char c) {
         return isAsciiAlphaOrWhitespace((int) c);
@@ -918,7 +920,7 @@ public class CharHelper {
      * This includes alphabetic characters ('a' to 'z', 'A' to 'Z') and whitespaces.
      *
      * @param c the character to check
-     * @return {@code true} if the character is an ASCII alphabetic character or a whitespace, {@code false} otherwise
+     * @return {@code true} if the character is an ASCII alphabetic character or whitespace, {@code false} otherwise
      */
     public static boolean isAsciiAlphaOrWhitespace(int c) {
         return isAsciiAlpha(c) || isAsciiWhitespace(c);
