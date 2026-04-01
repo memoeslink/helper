@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 public class CharHelper {
     public static final char NULL_CHAR = '\0'; //\u0000
     public static final String CONSONANTS = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
-    public static final String GLOBAL_CONSONANTS = "bcdfghjklmnpqrstvwxyzçðñþłŋšžBCDFGHJKLMNPQRSTVWXYZÇÐÑÞŁŊŠŽ";
-    public static final String NON_CLUSTER_CONSONANTS = "hjqvwxçðñþłŋšžHJQVWXÇÐÑÞŁŊŠŽ";
+    public static final String GLOBAL_CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyzÇÐÑÞßçðñþĆćĈĉČčĎďĜĝĞğĢģĤĥĴĵĶķĹĺĻļĽľŁłŃńŅņŇňŊŋŔŕŖŗŘřŚśŜŝŞşŠšŤťŴŵŹźŻżŽžȚțẞ";
+    public static final String NON_CLUSTER_CONSONANTS = "HJQVWXhjqvwxÇÐÑÞßçðñþĞğĴĵŁłŊŋŠšŴŵŽžẞ";
     public static final String VOWELS = "aeiouAEIOU";
-    public static final String GLOBAL_VOWELS = "aàáâãäåāăąǻȁȃạảấầẩẫậắằẳẵặḁæǽeȅȇḕḗḙḛḝẹẻẽếềểễệēĕėęěèéêëiȉȋḭḯỉịĩīĭįiìíîïĳoœøǿȍȏṍṏṑṓọỏốồổỗộớờởỡợōòóŏőôõöuũūŭůűųùúûüȕȗṳṵṷṹṻụủứừửữựyẙỳỵỷỹŷÿýAÀÁÂÃÄÅĀĂĄǺȀȂẠẢẤẦẨẪẬẮẰẲẴẶḀÆǼEȄȆḔḖḘḚḜẸẺẼẾỀỂỄỆĒĔĖĘĚÈÉÊËIȈȊḬḮỈỊĨĪĬĮIÌÍÎÏĲOŒØǾȌȎṌṎṐṒỌỎỐỒỔỖỘỚỜỞỠỢŌÒÓŎŐÔÕÖUŨŪŬŮŰŲÙÚÛÜȔȖṲṴṶṸṺỤỦỨỪỬỮỰYY̊ỲỴỶỸŶŸÝ";
+    public static final String GLOBAL_VOWELS = "AEIOUYaeiouyÀÁÂÃÄÅÆÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜÝàáâãäåæèéêëìíîïòóôõöøùúûüýÿĀāĂăĄąĒēĔĕĖėĘęĚěĨĩĪīĬĭĮįİıĲĳŌōŎŏŐőŒœŨũŪūŬŭŮůŰűŲųŶŷŸƠơƯưǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȔȕȖȗḀḁḔḕḖḗḘḙḚḛḜḝḬḭḮḯṌṍṎṏṐṑṒṓṲṳṴṵṶṷṸṹṺṻẎẏẙẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹỿ";
     public static final String GLOBAL_LETTERS = GLOBAL_CONSONANTS + GLOBAL_VOWELS;
     private static final Set<Integer> GLOBAL_VOWELS_REGISTRY;
     private static final Set<Integer> GLOBAL_CONSONANTS_REGISTRY;
