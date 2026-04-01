@@ -92,7 +92,7 @@ public class CharHelper {
      * @return {@code true} if {@code c} is a space, otherwise {@code false}
      */
     public static boolean isSpace(int c) {
-        return Character.isSpaceChar(c);
+        return c == ' ' || Character.isSpaceChar(c);
     }
 
     /**
@@ -250,7 +250,7 @@ public class CharHelper {
      * @return {@code true} if {@code c} is either a letter or whitespace, otherwise {@code false}
      */
     public static boolean isLetterOrWhitespace(int c) {
-        return !isNull(c) && (Character.isLetter(c) || Character.isWhitespace(c));
+        return Character.isLetter(c) || Character.isWhitespace(c);
     }
 
     /**
