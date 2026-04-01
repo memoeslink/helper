@@ -1288,7 +1288,7 @@ public class RegexFilter {
      * @return the number of characters that match the pattern
      */
     private static int count(String s, Pattern pattern) {
-        return filter(s, pattern).length();
+        return s == null ? 0 : filter(s, pattern).length();
     }
 
     /**
