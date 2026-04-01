@@ -577,7 +577,7 @@ public class StringFilter {
      * @return count of characters matching the predicate
      */
     private static int count(String s, Predicate<Character> predicate) {
-        return filter(s, predicate).length();
+        return s == null ? 0 : filter(s, predicate).length();
     }
 
     /**
