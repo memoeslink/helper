@@ -273,6 +273,197 @@ class ValidationTest {
     }
 
     @Nested
+    class IsIpAddress {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isIpAddress(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isIpAddress("   "));
+        }
+
+        @Test
+        void withValidIpAddress_returnsTrue() {
+            assertTrue(Validation.isIpAddress("192.168.0.1"));
+        }
+
+        @Test
+        void withLoopbackAddress_returnsTrue() {
+            assertTrue(Validation.isIpAddress("127.0.0.1"));
+        }
+
+        @Test
+        void withMaxOctetValues_returnsTrue() {
+            assertTrue(Validation.isIpAddress("255.255.255.255"));
+        }
+
+        @Test
+        void withZeroAddress_returnsTrue() {
+            assertTrue(Validation.isIpAddress("0.0.0.0"));
+        }
+
+        @Test
+        void withOctetExceedingRange_returnsFalse() {
+            assertFalse(Validation.isIpAddress("256.0.0.1"));
+        }
+
+        @Test
+        void withMissingOctet_returnsFalse() {
+            assertFalse(Validation.isIpAddress("192.168.0"));
+        }
+
+        @Test
+        void withLettersInAddress_returnsFalse() {
+            assertFalse(Validation.isIpAddress("192.168.a.1"));
+        }
+    }
+
+    @Nested
+    class IsIpv6Address {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isIpv6Address(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isIpv6Address("   "));
+        }
+
+        @Test
+        void withFullIpv6Address_returnsTrue() {
+            assertTrue(Validation.isIpv6Address("2001:0db8:85a3:0000:0000:8a2e:0370:7334"));
+        }
+
+        @Test
+        void withLoopbackAddress_returnsTrue() {
+            assertTrue(Validation.isIpv6Address("::1"));
+        }
+
+        @Test
+        void withCompressedIpv6Address_returnsTrue() {
+            assertTrue(Validation.isIpv6Address("2001:db8::1"));
+        }
+
+        @Test
+        void withAllZerosCompressed_returnsTrue() {
+            assertTrue(Validation.isIpv6Address("::"));
+        }
+
+        @Test
+        void withInvalidGroupCount_returnsFalse() {
+            assertFalse(Validation.isIpv6Address("2001:0db8:85a3:0000:8a2e:0370:7334"));
+        }
+
+        @Test
+        void withInvalidCharacters_returnsFalse() {
+            assertFalse(Validation.isIpv6Address("2001:0db8:85a3:zzzz:0000:8a2e:0370:7334"));
+        }
+    }
+
+    @Nested
+    class IsMacAddress {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isMacAddress(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isMacAddress("   "));
+        }
+
+        @Test
+        void withColonSeparatedMac_returnsTrue() {
+            assertTrue(Validation.isMacAddress("00:1A:2B:3C:4D:5E"));
+        }
+
+        @Test
+        void withHyphenSeparatedMac_returnsTrue() {
+            assertTrue(Validation.isMacAddress("00-1A-2B-3C-4D-5E"));
+        }
+
+        @Test
+        void withLowercaseMac_returnsTrue() {
+            assertTrue(Validation.isMacAddress("00:1a:2b:3c:4d:5e"));
+        }
+
+        @Test
+        void withMissingGroup_returnsFalse() {
+            assertFalse(Validation.isMacAddress("00:1A:2B:3C:4D"));
+        }
+
+        @Test
+        void withInvalidCharacters_returnsFalse() {
+            assertFalse(Validation.isMacAddress("00:1A:2B:3C:4G:5E"));
+        }
+
+        @Test
+        void withNoSeparator_returnsFalse() {
+            assertFalse(Validation.isMacAddress("001A2B3C4D5E"));
+        }
+    }
+
+    @Nested
+    class IsSlug {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isSlug(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isSlug("   "));
+        }
+
+        @Test
+        void withSimpleSlug_returnsTrue() {
+            assertTrue(Validation.isSlug("hello-world"));
+        }
+
+        @Test
+        void withSlugWithDigits_returnsTrue() {
+            assertTrue(Validation.isSlug("post-123"));
+        }
+
+        @Test
+        void withSingleWord_returnsTrue() {
+            assertTrue(Validation.isSlug("hello"));
+        }
+
+        @Test
+        void withUppercaseChars_returnsFalse() {
+            assertFalse(Validation.isSlug("Hello-World"));
+        }
+
+        @Test
+        void withLeadingHyphen_returnsFalse() {
+            assertFalse(Validation.isSlug("-hello-world"));
+        }
+
+        @Test
+        void withTrailingHyphen_returnsFalse() {
+            assertFalse(Validation.isSlug("hello-world-"));
+        }
+
+        @Test
+        void withConsecutiveHyphens_returnsFalse() {
+            assertFalse(Validation.isSlug("hello--world"));
+        }
+
+        @Test
+        void withSpace_returnsFalse() {
+            assertFalse(Validation.isSlug("hello world"));
+        }
+    }
+
+    @Nested
     class IsHexColor {
 
         @Test
@@ -406,6 +597,313 @@ class ValidationTest {
         @Test
         void withSpaceInLocale_returnsFalse() {
             assertFalse(Validation.isLocale("en US"));
+        }
+    }
+
+    @Nested
+    class IsUuid {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isUuid(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isUuid("   "));
+        }
+
+        @Test
+        void withValidUuid_returnsTrue() {
+            assertTrue(Validation.isUuid("550e8400-e29b-41d4-a716-446655440000"));
+        }
+
+        @Test
+        void withUppercaseUuid_returnsTrue() {
+            assertTrue(Validation.isUuid("550E8400-E29B-41D4-A716-446655440000"));
+        }
+
+        @Test
+        void withMissingSegment_returnsFalse() {
+            assertFalse(Validation.isUuid("550e8400-e29b-41d4-a716"));
+        }
+
+        @Test
+        void withInvalidCharacters_returnsFalse() {
+            assertFalse(Validation.isUuid("550e8400-e29b-41d4-a716-44665544000G"));
+        }
+
+        @Test
+        void withMissingHyphens_returnsFalse() {
+            assertFalse(Validation.isUuid("550e8400e29b41d4a716446655440000"));
+        }
+    }
+
+    @Nested
+    class IsIsbn {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isIsbn(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isIsbn("   "));
+        }
+
+        @Test
+        void withValidIsbn10_returnsTrue() {
+            assertTrue(Validation.isIsbn("0306406152"));
+        }
+
+        @Test
+        void withValidIsbn13_returnsTrue() {
+            assertTrue(Validation.isIsbn("9780306406157"));
+        }
+
+        @Test
+        void withInvalidIsbn_returnsFalse() {
+            assertFalse(Validation.isIsbn("1234567890"));
+        }
+    }
+
+    @Nested
+    class IsIsbn10 {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isIsbn10(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isIsbn10("   "));
+        }
+
+        @Test
+        void withValidIsbn10_returnsTrue() {
+            assertTrue(Validation.isIsbn10("0306406152"));
+        }
+
+        @Test
+        void withValidIsbn10EndingInX_returnsTrue() {
+            assertTrue(Validation.isIsbn10("080442957X"));
+        }
+
+        @Test
+        void withInvalidChecksum_returnsFalse() {
+            assertFalse(Validation.isIsbn10("0306406153"));
+        }
+
+        @Test
+        void withTooShort_returnsFalse() {
+            assertFalse(Validation.isIsbn10("030640615"));
+        }
+
+        @Test
+        void withLettersInBody_returnsFalse() {
+            assertFalse(Validation.isIsbn10("030640615A"));
+        }
+    }
+
+    @Nested
+    class IsIsbn13 {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isIsbn13(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isIsbn13("   "));
+        }
+
+        @Test
+        void withValidIsbn13_returnsTrue() {
+            assertTrue(Validation.isIsbn13("9780306406157"));
+        }
+
+        @Test
+        void withValid979Isbn13_returnsTrue() {
+            assertTrue(Validation.isIsbn13("9791032309667"));
+        }
+
+        @Test
+        void withInvalidChecksum_returnsFalse() {
+            assertFalse(Validation.isIsbn13("9780306406158"));
+        }
+
+        @Test
+        void withInvalidPrefix_returnsFalse() {
+            assertFalse(Validation.isIsbn13("9770306406157"));
+        }
+
+        @Test
+        void withTooShort_returnsFalse() {
+            assertFalse(Validation.isIsbn13("978030640615"));
+        }
+    }
+
+    @Nested
+    class IsCreditCard {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isCreditCard(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isCreditCard("   "));
+        }
+
+        @Test
+        void withValidVisaNumber_returnsTrue() {
+            assertTrue(Validation.isCreditCard("4111111111111111"));
+        }
+
+        @Test
+        void withValidMastercardNumber_returnsTrue() {
+            assertTrue(Validation.isCreditCard("5500005555555559"));
+        }
+
+        @Test
+        void withInvalidLuhnChecksum_returnsFalse() {
+            assertFalse(Validation.isCreditCard("4111111111111112"));
+        }
+
+        @Test
+        void withTooShort_returnsFalse() {
+            assertFalse(Validation.isCreditCard("411111111111"));
+        }
+
+        @Test
+        void withLetters_returnsFalse() {
+            assertFalse(Validation.isCreditCard("4111111111111abc"));
+        }
+    }
+
+    @Nested
+    class IsIban {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isIban(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isIban("   "));
+        }
+
+        @Test
+        void withValidGbIban_returnsTrue() {
+            assertTrue(Validation.isIban("GB82WEST12345698765432"));
+        }
+
+        @Test
+        void withValidDeIban_returnsTrue() {
+            assertTrue(Validation.isIban("DE89370400440532013000"));
+        }
+
+        @Test
+        void withInvalidChecksum_returnsFalse() {
+            assertFalse(Validation.isIban("GB82WEST12345698765433"));
+        }
+
+        @Test
+        void withMissingCountryCode_returnsFalse() {
+            assertFalse(Validation.isIban("82WEST12345698765432"));
+        }
+
+        @Test
+        void withLowercaseCountryCode_returnsFalse() {
+            assertFalse(Validation.isIban("gb82WEST12345698765432"));
+        }
+    }
+
+    @Nested
+    class IsPassword {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isPassword(null));
+        }
+
+        @Test
+        void withBlank_returnsFalse() {
+            assertFalse(Validation.isPassword("   "));
+        }
+
+        @Test
+        void withValidPassword_returnsTrue() {
+            assertTrue(Validation.isPassword("Secure#1"));
+        }
+
+        @Test
+        void withPasswordTooShort_returnsFalse() {
+            assertFalse(Validation.isPassword("Sec#1"));
+        }
+
+        @Test
+        void withMissingUppercase_returnsFalse() {
+            assertFalse(Validation.isPassword("secure#1"));
+        }
+
+        @Test
+        void withMissingLowercase_returnsFalse() {
+            assertFalse(Validation.isPassword("SECURE#1"));
+        }
+
+        @Test
+        void withMissingDigit_returnsFalse() {
+            assertFalse(Validation.isPassword("Secure##"));
+        }
+
+        @Test
+        void withMissingSpecialChar_returnsFalse() {
+            assertFalse(Validation.isPassword("Secure11"));
+        }
+    }
+
+    @Nested
+    class IsPasswordWithRange {
+
+        @Test
+        void withNull_returnsFalse() {
+            assertFalse(Validation.isPassword(null, 6, 20));
+        }
+
+        @Test
+        void withValidPasswordInRange_returnsTrue() {
+            assertTrue(Validation.isPassword("Secure#1", 6, 20));
+        }
+
+        @Test
+        void withPasswordTooShort_returnsFalse() {
+            assertFalse(Validation.isPassword("Se#1", 6, 20));
+        }
+
+        @Test
+        void withPasswordTooLong_returnsFalse() {
+            assertFalse(Validation.isPassword("Secure#1Secure#1Secur", 6, 20));
+        }
+
+        @Test
+        void withPasswordAtMinBoundary_returnsTrue() {
+            assertTrue(Validation.isPassword("Se#1aA", 6, 20));
+        }
+
+        @Test
+        void withPasswordAtMaxBoundary_returnsTrue() {
+            assertTrue(Validation.isPassword("Secure#1Secure#1Secu", 6, 20));
+        }
+
+        @Test
+        void withInvalidPasswordInRange_returnsFalse() {
+            assertFalse(Validation.isPassword("securepassword", 6, 20));
         }
     }
 
