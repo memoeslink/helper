@@ -2470,6 +2470,23 @@ public class StringHelper {
     }
 
     /**
+     * Replaces the first {@code n} characters of the string with a replacement string.
+     *
+     * @param s           the original string
+     * @param n           the number of characters to replace from the start of the string
+     * @param replacement the replacement string
+     * @return the string with the first {@code n} characters replaced; the original string if {@code s} is
+     * {@code null}, {@code n} is less than or equal to 0, or {@code replacement} is {@code null}; or the
+     * replacement string if {@code n} is greater than or equal to the string's length
+     */
+    public static String replaceStart(String s, int n, String replacement) {
+        if (isNullOrEmpty(s) || n <= 0 || replacement == null) return s;
+
+        if (n >= s.length()) return replacement;
+        return replacement + s.substring(n);
+    }
+
+    /**
      * Replaces the start of the string matching a given prefix with a replacement string.
      *
      * @param s           the original string
@@ -2517,6 +2534,23 @@ public class StringHelper {
             if (!equals(s, result)) return result;
         }
         return s;
+    }
+
+    /**
+     * Replaces the last {@code n} characters of the string with a replacement string.
+     *
+     * @param s           the original string
+     * @param n           the number of characters to replace from the end of the string
+     * @param replacement the replacement string
+     * @return the string with the last {@code n} characters replaced; the original string if {@code s} is
+     * {@code null}, {@code n} is less than or equal to 0, or {@code replacement} is {@code null}; or the
+     * replacement string if {@code n} is greater than or equal to the string's length
+     */
+    public static String replaceEnd(String s, int n, String replacement) {
+        if (isNullOrEmpty(s) || n <= 0 || replacement == null) return s;
+
+        if (n >= s.length()) return replacement;
+        return s.substring(0, s.length() - n) + replacement;
     }
 
     /**
@@ -2824,17 +2858,6 @@ public class StringHelper {
     }
 
     /**
-     * Removes the start of the string if it matches a given prefix.
-     *
-     * @param s      the original string
-     * @param prefix the prefix to match and remove
-     * @return the string with the prefix removed
-     */
-    public static String removeStart(String s, String prefix) {
-        return replaceStart(s, prefix, EMPTY);
-    }
-
-    /**
      * Removes the first {@code n} characters from the string.
      *
      * @param s the original string
@@ -2844,10 +2867,18 @@ public class StringHelper {
      * or equal to the string's length
      */
     public static String removeStart(String s, int n) {
-        if (isNullOrEmpty(s) || n <= 0) return s;
+        return replaceStart(s, n, EMPTY);
+    }
 
-        if (n >= s.length()) return EMPTY;
-        return s.substring(n);
+    /**
+     * Removes the start of the string if it matches a given prefix.
+     *
+     * @param s      the original string
+     * @param prefix the prefix to match and remove
+     * @return the string with the prefix removed
+     */
+    public static String removeStart(String s, String prefix) {
+        return replaceStart(s, prefix, EMPTY);
     }
 
     /**
@@ -2862,17 +2893,6 @@ public class StringHelper {
     }
 
     /**
-     * Removes the end of the string if it matches a given suffix.
-     *
-     * @param s      the original string
-     * @param suffix the suffix to match and remove
-     * @return the string with the suffix removed
-     */
-    public static String removeEnd(String s, String suffix) {
-        return replaceEnd(s, suffix, EMPTY);
-    }
-
-    /**
      * Removes the last {@code n} characters from the string.
      *
      * @param s the original string
@@ -2882,10 +2902,18 @@ public class StringHelper {
      * or equal to the string's length
      */
     public static String removeEnd(String s, int n) {
-        if (isNullOrEmpty(s) || n <= 0) return s;
+        return replaceEnd(s, n, EMPTY);
+    }
 
-        if (n >= s.length()) return EMPTY;
-        return s.substring(0, s.length() - n);
+    /**
+     * Removes the end of the string if it matches a given suffix.
+     *
+     * @param s      the original string
+     * @param suffix the suffix to match and remove
+     * @return the string with the suffix removed
+     */
+    public static String removeEnd(String s, String suffix) {
+        return replaceEnd(s, suffix, EMPTY);
     }
 
     /**

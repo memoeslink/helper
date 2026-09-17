@@ -204,6 +204,20 @@ class StringHelperTest {
     }
 
     @Nested
+    class DefaultOnBlank {
+
+        @Test
+        void withBlank_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.defaultOnBlank("   "));
+        }
+
+        @Test
+        void withNonBlank_returnsOriginal() {
+            assertEquals("hello", StringHelper.defaultOnBlank("hello"));
+        }
+    }
+
+    @Nested
     class DefaultIfBlank {
 
         @Test
@@ -232,12 +246,12 @@ class StringHelperTest {
 
         @Test
         void withFirstNonNull_returnsFirst() {
-            assertEquals("a", StringHelper.getFirstNonNull("a", "b"));
+            assertEquals("hello", StringHelper.getFirstNonNull("hello", "world"));
         }
 
         @Test
         void withFirstNullSecondNonNull_returnsSecond() {
-            assertEquals("b", StringHelper.getFirstNonNull(null, "b"));
+            assertEquals("world", StringHelper.getFirstNonNull(null, "world"));
         }
     }
 
@@ -251,12 +265,12 @@ class StringHelperTest {
 
         @Test
         void withFirstNonEmpty_returnsFirst() {
-            assertEquals("a", StringHelper.getFirstNonEmpty("a", "b"));
+            assertEquals("hello", StringHelper.getFirstNonEmpty("hello", "world"));
         }
 
         @Test
         void withFirstEmptySecondNonEmpty_returnsSecond() {
-            assertEquals("b", StringHelper.getFirstNonEmpty("", "b"));
+            assertEquals("world", StringHelper.getFirstNonEmpty("", "world"));
         }
     }
 
@@ -270,7 +284,96 @@ class StringHelperTest {
 
         @Test
         void withFirstBlankSecondNonBlank_returnsSecond() {
-            assertEquals("b", StringHelper.getFirstNonBlank("  ", "b"));
+            assertEquals("world", StringHelper.getFirstNonBlank("  ", "world"));
+        }
+    }
+
+    @Nested
+    class GetFirstNonNullOrDefault {
+
+        @Test
+        void withAllNull_returnsDefault() {
+            assertEquals("fallback", StringHelper.getFirstNonNullOrDefault("fallback", null, null));
+        }
+
+        @Test
+        void withFirstNonNull_returnsFirst() {
+            assertEquals("hello", StringHelper.getFirstNonNullOrDefault("fallback", "hello", "world"));
+        }
+
+        @Test
+        void withNullArray_returnsDefault() {
+            assertEquals("fallback", StringHelper.getFirstNonNullOrDefault("fallback", (String[]) null));
+        }
+    }
+
+    @Nested
+    class GetFirstNonEmptyOrDefault {
+
+        @Test
+        void withAllEmpty_returnsDefault() {
+            assertEquals("fallback", StringHelper.getFirstNonEmptyOrDefault("fallback", "", ""));
+        }
+
+        @Test
+        void withFirstNonEmpty_returnsFirst() {
+            assertEquals("hello", StringHelper.getFirstNonEmptyOrDefault("fallback", "hello", "world"));
+        }
+    }
+
+    @Nested
+    class GetFirstNonBlankOrDefault {
+
+        @Test
+        void withAllBlank_returnsDefault() {
+            assertEquals("fallback", StringHelper.getFirstNonBlankOrDefault("fallback", "  ", "  "));
+        }
+
+        @Test
+        void withFirstNonBlank_returnsFirst() {
+            assertEquals("world", StringHelper.getFirstNonBlankOrDefault("fallback", "  ", "world"));
+        }
+    }
+
+    @Nested
+    class GetFirstNonNullElseDefault {
+
+        @Test
+        void withAllNull_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.getFirstNonNullElseDefault((String[]) null));
+        }
+
+        @Test
+        void withFirstNonNull_returnsFirst() {
+            assertEquals("hello", StringHelper.getFirstNonNullElseDefault("hello", "world"));
+        }
+    }
+
+    @Nested
+    class GetFirstNonEmptyElseDefault {
+
+        @Test
+        void withAllEmpty_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.getFirstNonEmptyElseDefault("", ""));
+        }
+
+        @Test
+        void withFirstNonEmpty_returnsFirst() {
+            assertEquals("hello", StringHelper.getFirstNonEmptyElseDefault("hello", "world"));
+        }
+    }
+
+    @Nested
+    class GetFirstNonBlankElseDefault {
+
+        @Test
+        void withAllBlank_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.getFirstNonBlankElseDefault("  ", "  "));
+        }
+
+        @Test
+        void withFirstNonBlank_returnsFirst() {
+            assertEquals("world", StringHelper.getFirstNonBlankElseDefault("  ", "world"));
         }
     }
 
@@ -337,6 +440,35 @@ class StringHelperTest {
     }
 
     @Nested
+    class PrependSpaceIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.prependSpaceIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsPrependedWithSpace() {
+            assertEquals(" hello", StringHelper.prependSpaceIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class PrependSpaceIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.prependSpaceIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsPrependedWithSpace() {
+            assertEquals(" hello", StringHelper.prependSpaceIfNotBlank("hello"));
+        }
+    }
+
+    @Nested
     class PrependHyphenIfNotNull {
 
         @Test
@@ -347,6 +479,78 @@ class StringHelperTest {
         @Test
         void withNonNull_returnsPrependedWithHyphen() {
             assertEquals("-hello", StringHelper.prependHyphenIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class PrependHyphenIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.prependHyphenIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsPrependedWithHyphen() {
+            assertEquals("-hello", StringHelper.prependHyphenIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class PrependHyphenIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.prependHyphenIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsPrependedWithHyphen() {
+            assertEquals("-hello", StringHelper.prependHyphenIfNotBlank("hello"));
+        }
+    }
+
+    @Nested
+    class PrependLineBreakIfNotNull {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.prependLineBreakIfNotNull(null));
+        }
+
+        @Test
+        void withNonNull_returnsPrependedWithLineBreak() {
+            assertEquals(System.lineSeparator() + "hello", StringHelper.prependLineBreakIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class PrependLineBreakIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.prependLineBreakIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsPrependedWithLineBreak() {
+            assertEquals(System.lineSeparator() + "hello", StringHelper.prependLineBreakIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class PrependLineBreakIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.prependLineBreakIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsPrependedWithLineBreak() {
+            assertEquals(System.lineSeparator() + "hello", StringHelper.prependLineBreakIfNotBlank("hello"));
         }
     }
 
@@ -413,6 +617,35 @@ class StringHelperTest {
     }
 
     @Nested
+    class AppendSpaceIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.appendSpaceIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsAppendedWithSpace() {
+            assertEquals("hello ", StringHelper.appendSpaceIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class AppendSpaceIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.appendSpaceIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsAppendedWithSpace() {
+            assertEquals("hello ", StringHelper.appendSpaceIfNotBlank("hello"));
+        }
+    }
+
+    @Nested
     class AppendHyphenIfNotNull {
 
         @Test
@@ -423,6 +656,78 @@ class StringHelperTest {
         @Test
         void withNonNull_returnsAppendedWithHyphen() {
             assertEquals("hello-", StringHelper.appendHyphenIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class AppendHyphenIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.appendHyphenIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsAppendedWithHyphen() {
+            assertEquals("hello-", StringHelper.appendHyphenIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class AppendHyphenIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.appendHyphenIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsAppendedWithHyphen() {
+            assertEquals("hello-", StringHelper.appendHyphenIfNotBlank("hello"));
+        }
+    }
+
+    @Nested
+    class AppendLineBreakIfNotNull {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.appendLineBreakIfNotNull(null));
+        }
+
+        @Test
+        void withNonNull_returnsAppendedWithLineBreak() {
+            assertEquals("hello" + System.lineSeparator(), StringHelper.appendLineBreakIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class AppendLineBreakIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.appendLineBreakIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsAppendedWithLineBreak() {
+            assertEquals("hello" + System.lineSeparator(), StringHelper.appendLineBreakIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class AppendLineBreakIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.appendLineBreakIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsAppendedWithLineBreak() {
+            assertEquals("hello" + System.lineSeparator(), StringHelper.appendLineBreakIfNotBlank("hello"));
         }
     }
 
@@ -466,6 +771,135 @@ class StringHelperTest {
         @Test
         void withNonBlank_returnsAffixed() {
             assertEquals("<<hello>>", StringHelper.affixIfNotBlank("hello", "<<", ">>"));
+        }
+    }
+
+    @Nested
+    class AffixSpacesIfNotNull {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.affixSpacesIfNotNull(null));
+        }
+
+        @Test
+        void withNonNull_returnsAffixedWithSpaces() {
+            assertEquals(" hello ", StringHelper.affixSpacesIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class AffixSpacesIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.affixSpacesIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsAffixedWithSpaces() {
+            assertEquals(" hello ", StringHelper.affixSpacesIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class AffixSpacesIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.affixSpacesIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsAffixedWithSpaces() {
+            assertEquals(" hello ", StringHelper.affixSpacesIfNotBlank("hello"));
+        }
+    }
+
+    @Nested
+    class AffixHyphensIfNotNull {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.affixHyphensIfNotNull(null));
+        }
+
+        @Test
+        void withNonNull_returnsAffixedWithHyphens() {
+            assertEquals("-hello-", StringHelper.affixHyphensIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class AffixHyphensIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.affixHyphensIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsAffixedWithHyphens() {
+            assertEquals("-hello-", StringHelper.affixHyphensIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class AffixHyphensIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.affixHyphensIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsAffixedWithHyphens() {
+            assertEquals("-hello-", StringHelper.affixHyphensIfNotBlank("hello"));
+        }
+    }
+
+    @Nested
+    class AffixLineBreaksIfNotNull {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.affixLineBreaksIfNotNull(null));
+        }
+
+        @Test
+        void withNonNull_returnsAffixedWithLineBreaks() {
+            assertEquals(System.lineSeparator() + "hello" + System.lineSeparator(), StringHelper.affixLineBreaksIfNotNull("hello"));
+        }
+    }
+
+    @Nested
+    class AffixLineBreaksIfNotEmpty {
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.affixLineBreaksIfNotEmpty(""));
+        }
+
+        @Test
+        void withNonEmpty_returnsAffixedWithLineBreaks() {
+            assertEquals(System.lineSeparator() + "hello" + System.lineSeparator(), StringHelper.affixLineBreaksIfNotEmpty("hello"));
+        }
+    }
+
+    @Nested
+    class AffixLineBreaksIfNotBlank {
+
+        @Test
+        void withBlank_returnsBlank() {
+            String blank = "   ";
+            assertEquals(blank, StringHelper.affixLineBreaksIfNotBlank(blank));
+        }
+
+        @Test
+        void withNonBlank_returnsAffixedWithLineBreaks() {
+            assertEquals(System.lineSeparator() + "hello" + System.lineSeparator(), StringHelper.affixLineBreaksIfNotBlank("hello"));
         }
     }
 
@@ -567,11 +1001,39 @@ class StringHelperTest {
     }
 
     @Nested
+    class SplitByDelimiter {
+
+        @Test
+        void withNullString_returnsEmptyArray() {
+            assertArrayEquals(new String[]{}, StringHelper.splitByDelimiter(null, "::"));
+        }
+
+        @Test
+        void withNullDelimiter_returnsOriginalAsSingleElement() {
+            assertArrayEquals(new String[]{"hello"}, StringHelper.splitByDelimiter("hello", null));
+        }
+
+        @Test
+        void withValidDelimiter_returnsParts() {
+            assertArrayEquals(new String[]{"aa", "bb", "cc"}, StringHelper.splitByDelimiter("aa::bb::cc", "::"));
+        }
+    }
+
+    @Nested
     class SplitBySpace {
 
         @Test
         void withSpaceSeparatedWords_returnsParts() {
             assertArrayEquals(new String[]{"hello", "world"}, StringHelper.splitBySpace("hello world"));
+        }
+    }
+
+    @Nested
+    class SplitByWhitespace {
+
+        @Test
+        void withMultipleWhitespaceSeparators_returnsParts() {
+            assertArrayEquals(new String[]{"hello", "world"}, StringHelper.splitByWhitespace("hello   world"));
         }
     }
 
@@ -585,11 +1047,39 @@ class StringHelperTest {
     }
 
     @Nested
+    class SplitByLineBreak {
+
+        @Test
+        void withLineSeparatedWords_returnsParts() {
+            String input = "aa" + System.lineSeparator() + "bb" + System.lineSeparator() + "cc";
+            assertArrayEquals(new String[]{"aa", "bb", "cc"}, StringHelper.splitByLineBreak(input));
+        }
+    }
+
+    @Nested
+    class SplitByParagraphMark {
+
+        @Test
+        void withParagraphMarkSeparatedWords_returnsParts() {
+            assertArrayEquals(new String[]{"a", "b", "c"}, StringHelper.splitByParagraphMark("a ¶ b¶c"));
+        }
+    }
+
+    @Nested
     class SplitByComma {
 
         @Test
         void withCommaSeparatedWords_returnsParts() {
             assertArrayEquals(new String[]{"a", "b", "c"}, StringHelper.splitByComma("a, b, c"));
+        }
+    }
+
+    @Nested
+    class SplitByTab {
+
+        @Test
+        void withTabSeparatedWords_returnsParts() {
+            assertArrayEquals(new String[]{"a", "b", "c"}, StringHelper.splitByTab("a\tb\tc"));
         }
     }
 
@@ -660,6 +1150,42 @@ class StringHelperTest {
         @Test
         void withMultipleStrings_returnsHyphenJoined() {
             assertEquals("a-b-c", StringHelper.joinWithHyphen("a", "b", "c"));
+        }
+    }
+
+    @Nested
+    class JoinWithLineBreak {
+
+        @Test
+        void withMultipleStrings_returnsLineBreakJoined() {
+            assertEquals("a" + System.lineSeparator() + "b" + System.lineSeparator() + "c", StringHelper.joinWithLineBreak("a", "b", "c"));
+        }
+    }
+
+    @Nested
+    class JoinWithSlash {
+
+        @Test
+        void withMultipleStrings_returnsSlashJoined() {
+            assertEquals("a/b/c", StringHelper.joinWithSlash("a", "b", "c"));
+        }
+    }
+
+    @Nested
+    class JoinWithBackslash {
+
+        @Test
+        void withMultipleStrings_returnsBackslashJoined() {
+            assertEquals("a\\b\\c", StringHelper.joinWithBackslash("a", "b", "c"));
+        }
+    }
+
+    @Nested
+    class JoinWithFileSeparator {
+
+        @Test
+        void withMultipleStrings_returnsFileSeparatorJoined() {
+            assertEquals("a" + java.io.File.separator + "b" + java.io.File.separator + "c", StringHelper.joinWithFileSeparator("a", "b", "c"));
         }
     }
 
@@ -759,6 +1285,30 @@ class StringHelperTest {
     }
 
     @Nested
+    class TrimOrDefault {
+
+        @Test
+        void withNull_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.trimOrDefault(null));
+        }
+
+        @Test
+        void withBlank_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.trimOrDefault("   "));
+        }
+
+        @Test
+        void withPaddedString_returnsTrimmed() {
+            assertEquals("hello", StringHelper.trimOrDefault("  hello  "));
+        }
+
+        @Test
+        void withCustomDefault_returnsCustomDefault() {
+            assertEquals("fallback", StringHelper.trimOrDefault("   ", "fallback"));
+        }
+    }
+
+    @Nested
     class Strip {
 
         @Test
@@ -797,6 +1347,30 @@ class StringHelperTest {
         @Test
         void withPaddedString_returnsStripped() {
             assertEquals("hello", StringHelper.stripToEmpty("  hello  "));
+        }
+    }
+
+    @Nested
+    class StripOrDefault {
+
+        @Test
+        void withNull_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.stripOrDefault(null));
+        }
+
+        @Test
+        void withBlank_returnsDefaultValue() {
+            assertEquals(StringHelper.DEFAULT_VALUE, StringHelper.stripOrDefault("   "));
+        }
+
+        @Test
+        void withPaddedString_returnsStripped() {
+            assertEquals("hello", StringHelper.stripOrDefault("  hello  "));
+        }
+
+        @Test
+        void withCustomDefault_returnsCustomDefault() {
+            assertEquals("fallback", StringHelper.stripOrDefault("   ", "fallback"));
         }
     }
 
@@ -871,6 +1445,24 @@ class StringHelperTest {
         @Test
         void withMixedContent_keepsAlphanumeric() {
             assertEquals("hello123", StringHelper.normalizeAlphanumeric("héllo123!"));
+        }
+    }
+
+    @Nested
+    class NormalizeAlphaWhitespace {
+
+        @Test
+        void withMixedContent_keepsAlphaAndWhitespace() {
+            assertEquals("hello world", StringHelper.normalizeAlphaWhitespace("héllo world123!"));
+        }
+    }
+
+    @Nested
+    class NormalizeAlphanumericWhitespace {
+
+        @Test
+        void withMixedContent_keepsAlphanumericAndWhitespace() {
+            assertEquals("hello world123", StringHelper.normalizeAlphanumericWhitespace("héllo world123!"));
         }
     }
 
@@ -974,6 +1566,52 @@ class StringHelperTest {
         @Test
         void withMultipleWords_capitalizesEachStart() {
             assertEquals("Hello World", StringHelper.capitalizeStarts("hello world"));
+        }
+    }
+
+    @Nested
+    class ToUppercaseExceptStart {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.toUppercaseExceptStart(null));
+        }
+
+        @Test
+        void withLowercaseFirst_uppercasesRestExceptFirstChar() {
+            assertEquals("hELLO WORLD", StringHelper.toUppercaseExceptStart("hello world"));
+        }
+    }
+
+    @Nested
+    class ToUppercaseExceptStarts {
+
+        @Test
+        void withMultipleWords_lowercasesEachStartUppercaseRest() {
+            assertEquals("hELLO wORLD", StringHelper.toUppercaseExceptStarts("hello world"));
+        }
+    }
+
+    @Nested
+    class UncapitalizeStart {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.uncapitalizeStart(null));
+        }
+
+        @Test
+        void withUppercaseFirst_lowercasesFirstCharOnly() {
+            assertEquals("hELLO WORLD", StringHelper.uncapitalizeStart("HELLO WORLD"));
+        }
+    }
+
+    @Nested
+    class UncapitalizeStarts {
+
+        @Test
+        void withMultipleWords_lowercasesEachStart() {
+            assertEquals("hELLO wORLD", StringHelper.uncapitalizeStarts("HELLO WORLD"));
         }
     }
 
@@ -1342,6 +1980,25 @@ class StringHelperTest {
     }
 
     @Nested
+    class ReplaceWith {
+
+        @Test
+        void withNullString_returnsNull() {
+            assertNull(StringHelper.replaceWith(null, "a", "b"));
+        }
+
+        @Test
+        void withPresentOccurrence_replacesAll() {
+            assertEquals("hXXo", StringHelper.replaceWith("hello", "ell", "XX"));
+        }
+
+        @Test
+        void withAbsentOccurrence_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceWith("hello", "xyz", "XX"));
+        }
+    }
+
+    @Nested
     class ReplaceByIndex {
 
         @Test
@@ -1397,11 +2054,116 @@ class StringHelperTest {
     }
 
     @Nested
+    class ReplaceFirst {
+
+        @Test
+        void withNullString_returnsNull() {
+            assertNull(StringHelper.replaceFirst(null, "l", "X"));
+        }
+
+        @Test
+        void withMatchingRegex_replacesFirstMatch() {
+            assertEquals("heXlo", StringHelper.replaceFirst("hello", "l", "X"));
+        }
+
+        @Test
+        void withNullReplacement_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceFirst("hello", "l", null));
+        }
+    }
+
+    @Nested
+    class ReplaceLast {
+
+        @Test
+        void withMatchingRegex_replacesLastMatch() {
+            assertEquals("helXo", StringHelper.replaceLast("hello", "l", "X"));
+        }
+    }
+
+    @Nested
+    class ReplaceEach {
+
+        @Test
+        void withMultipleOccurrences_replacesAll() {
+            assertEquals("hXllY", StringHelper.replaceEach("hello", new String[]{"e", "o"}, new String[]{"X", "Y"}));
+        }
+
+        @Test
+        void withNullOccurrences_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceEach("hello", null, new String[]{"X"}));
+        }
+    }
+
+    @Nested
     class ReplaceAll {
 
         @Test
         void withRegexPattern_replacesAllMatches() {
             assertEquals("X X X", StringHelper.replaceAll("a b c", "[a-c]", "X"));
+        }
+    }
+
+    @Nested
+    class ReplaceGroup {
+
+        @Test
+        void withMatchingGroup_replacesGroupContent() {
+            assertEquals("abcXdef456", StringHelper.replaceGroup("abc123def456", "(\\d+)", 1, "X"));
+        }
+
+        @Test
+        void withNoMatch_returnsOriginal() {
+            assertEquals("abcdef", StringHelper.replaceGroup("abcdef", "(\\d+)", 1, "X"));
+        }
+
+        @Test
+        void withGroupOccurrence_replacesTargetedMatch() {
+            assertEquals("abc123defXghi789", StringHelper.replaceGroup("abc123def456ghi789", "(\\d+)", 1, 2, "X"));
+        }
+    }
+
+    @Nested
+    class ReplaceStartByCount {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.replaceStart(null, 2, "X"));
+        }
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.replaceStart("", 2, "X"));
+        }
+
+        @Test
+        void withZeroCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceStart("hello", 0, "X"));
+        }
+
+        @Test
+        void withNegativeCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceStart("hello", -1, "X"));
+        }
+
+        @Test
+        void withNullReplacement_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceStart("hello", 2, null));
+        }
+
+        @Test
+        void withCountWithinLength_replacesFirstNChars() {
+            assertEquals("Xllo", StringHelper.replaceStart("hello", 2, "X"));
+        }
+
+        @Test
+        void withCountEqualToLength_returnsReplacement() {
+            assertEquals("X", StringHelper.replaceStart("hello", 5, "X"));
+        }
+
+        @Test
+        void withCountGreaterThanLength_returnsReplacement() {
+            assertEquals("X", StringHelper.replaceStart("hello", 10, "X"));
         }
     }
 
@@ -1420,6 +2182,78 @@ class StringHelperTest {
     }
 
     @Nested
+    class ReplaceAnyStart {
+
+        @Test
+        void withOneMatchingPrefix_replacesStart() {
+            assertEquals("Xlo", StringHelper.replaceAnyStart("hello", "X", "world", "hel"));
+        }
+
+        @Test
+        void withNoMatchingPrefix_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceAnyStart("hello", "X", "foo", "bar"));
+        }
+    }
+
+    @Nested
+    class ReplaceEachStart {
+
+        @Test
+        void withMatchingPrefix_replacesStart() {
+            assertEquals("Xello", StringHelper.replaceEachStart("hello", new String[]{"foo", "h"}, new String[]{"Y", "X"}));
+        }
+
+        @Test
+        void withNoMatchingPrefix_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceEachStart("hello", new String[]{"foo", "bar"}, new String[]{"Y", "Z"}));
+        }
+    }
+
+    @Nested
+    class ReplaceEndByCount {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.replaceEnd(null, 2, "X"));
+        }
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.replaceEnd("", 2, "X"));
+        }
+
+        @Test
+        void withZeroCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceEnd("hello", 0, "X"));
+        }
+
+        @Test
+        void withNegativeCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceEnd("hello", -1, "X"));
+        }
+
+        @Test
+        void withNullReplacement_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceEnd("hello", 2, null));
+        }
+
+        @Test
+        void withCountWithinLength_replacesLastNChars() {
+            assertEquals("helX", StringHelper.replaceEnd("hello", 2, "X"));
+        }
+
+        @Test
+        void withCountEqualToLength_returnsReplacement() {
+            assertEquals("X", StringHelper.replaceEnd("hello", 5, "X"));
+        }
+
+        @Test
+        void withCountGreaterThanLength_returnsReplacement() {
+            assertEquals("X", StringHelper.replaceEnd("hello", 10, "X"));
+        }
+    }
+
+    @Nested
     class ReplaceEnd {
 
         @Test
@@ -1434,6 +2268,34 @@ class StringHelperTest {
     }
 
     @Nested
+    class ReplaceAnyEnd {
+
+        @Test
+        void withOneMatchingSuffix_replacesEnd() {
+            assertEquals("hellX", StringHelper.replaceAnyEnd("hello", "X", "foo", "o"));
+        }
+
+        @Test
+        void withNoMatchingSuffix_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceAnyEnd("hello", "X", "foo", "bar"));
+        }
+    }
+
+    @Nested
+    class ReplaceEachEnd {
+
+        @Test
+        void withMatchingSuffix_replacesEnd() {
+            assertEquals("hellX", StringHelper.replaceEachEnd("hello", new String[]{"foo", "o"}, new String[]{"Y", "X"}));
+        }
+
+        @Test
+        void withNoMatchingSuffix_returnsOriginal() {
+            assertEquals("hello", StringHelper.replaceEachEnd("hello", new String[]{"foo", "bar"}, new String[]{"Y", "Z"}));
+        }
+    }
+
+    @Nested
     class ReplaceBetweenDelimiters {
 
         @Test
@@ -1443,11 +2305,29 @@ class StringHelperTest {
     }
 
     @Nested
+    class ReplaceBetweenParentheses {
+
+        @Test
+        void withParenthesizedContent_replacesContent() {
+            assertEquals("(X)", StringHelper.replaceBetweenParentheses("(hello)", "X"));
+        }
+    }
+
+    @Nested
     class ReplaceWithinDelimiters {
 
         @Test
         void withMatchingDelimiters_replacesIncludingDelimiters() {
             assertEquals("X", StringHelper.replaceWithinDelimiters("(hello)", '(', ')', "X"));
+        }
+    }
+
+    @Nested
+    class ReplaceWithinParentheses {
+
+        @Test
+        void withParenthesizedContent_replacesIncludingParentheses() {
+            assertEquals("X", StringHelper.replaceWithinParentheses("(hello)", "X"));
         }
     }
 
@@ -1493,6 +2373,20 @@ class StringHelperTest {
     }
 
     @Nested
+    class RemoveGroup {
+
+        @Test
+        void withMatchingGroup_removesGroupContent() {
+            assertEquals("abcdef456", StringHelper.removeGroup("abc123def456", "(\\d+)", 1));
+        }
+
+        @Test
+        void withGroupOccurrence_removesTargetedMatch() {
+            assertEquals("abc123defghi789", StringHelper.removeGroup("abc123def456ghi789", "(\\d+)", 1, 2));
+        }
+    }
+
+    @Nested
     class RemoveFirstChar {
 
         @Test
@@ -1516,16 +2410,38 @@ class StringHelperTest {
     }
 
     @Nested
-    class RemoveStart {
+    class RemoveOnce {
 
         @Test
-        void withMatchingPrefix_removesStart() {
-            assertEquals("ello", StringHelper.removeStart("hello", "h"));
+        void withPresentOccurrence_removesFirstOnly() {
+            assertEquals("ello hello", StringHelper.removeOnce("hello hello", "h"));
         }
+    }
+
+    @Nested
+    class RemoveFinal {
 
         @Test
-        void withNonMatchingPrefix_returnsOriginal() {
-            assertEquals("hello", StringHelper.removeStart("hello", "z"));
+        void withPresentOccurrence_removesLastOnly() {
+            assertEquals("hello ello", StringHelper.removeFinal("hello hello", "h"));
+        }
+    }
+
+    @Nested
+    class RemoveFirst {
+
+        @Test
+        void withMatchingRegex_removesFirstMatch() {
+            assertEquals("helo", StringHelper.removeFirst("hello", "l"));
+        }
+    }
+
+    @Nested
+    class RemoveLast {
+
+        @Test
+        void withMatchingRegex_removesLastMatch() {
+            assertEquals("helo", StringHelper.removeLast("hello", "l"));
         }
     }
 
@@ -1569,16 +2485,30 @@ class StringHelperTest {
     }
 
     @Nested
-    class RemoveEnd {
+    class RemoveStart {
 
         @Test
-        void withMatchingSuffix_removesEnd() {
-            assertEquals("hell", StringHelper.removeEnd("hello", "o"));
+        void withMatchingPrefix_removesStart() {
+            assertEquals("ello", StringHelper.removeStart("hello", "h"));
         }
 
         @Test
-        void withNonMatchingSuffix_returnsOriginal() {
-            assertEquals("hello", StringHelper.removeEnd("hello", "z"));
+        void withNonMatchingPrefix_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeStart("hello", "z"));
+        }
+    }
+
+    @Nested
+    class RemoveAnyStart {
+
+        @Test
+        void withOneMatchingPrefix_removesStart() {
+            assertEquals("ello", StringHelper.removeAnyStart("hello", "world", "h"));
+        }
+
+        @Test
+        void withNoMatchingPrefix_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeAnyStart("hello", "foo", "bar"));
         }
     }
 
@@ -1622,11 +2552,67 @@ class StringHelperTest {
     }
 
     @Nested
+    class RemoveEnd {
+
+        @Test
+        void withMatchingSuffix_removesEnd() {
+            assertEquals("hell", StringHelper.removeEnd("hello", "o"));
+        }
+
+        @Test
+        void withNonMatchingSuffix_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeEnd("hello", "z"));
+        }
+    }
+
+    @Nested
+    class RemoveAnyEnd {
+
+        @Test
+        void withOneMatchingSuffix_removesEnd() {
+            assertEquals("hell", StringHelper.removeAnyEnd("hello", "foo", "o"));
+        }
+
+        @Test
+        void withNoMatchingSuffix_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeAnyEnd("hello", "foo", "bar"));
+        }
+    }
+
+    @Nested
+    class RemoveBetweenDelimiters {
+
+        @Test
+        void withDifferentDelimiters_removesContent() {
+            assertEquals("[]", StringHelper.removeBetweenDelimiters("[hello]", '[', ']'));
+        }
+
+        @Test
+        void withSameDelimiter_removesContent() {
+            assertEquals("||", StringHelper.removeBetweenDelimiters("|hello|", '|'));
+        }
+    }
+
+    @Nested
     class RemoveBetweenParentheses {
 
         @Test
         void withParenthesizedContent_removesContent() {
             assertEquals("()", StringHelper.removeBetweenParentheses("(hello)"));
+        }
+    }
+
+    @Nested
+    class RemoveWithinDelimiters {
+
+        @Test
+        void withDifferentDelimiters_removesIncludingDelimiters() {
+            assertEquals("", StringHelper.removeWithinDelimiters("[hello]", '[', ']'));
+        }
+
+        @Test
+        void withSameDelimiter_removesIncludingDelimiters() {
+            assertEquals("", StringHelper.removeWithinDelimiters("|hello|", '|'));
         }
     }
 
@@ -1819,6 +2805,20 @@ class StringHelperTest {
     }
 
     @Nested
+    class EqualsDefault {
+
+        @Test
+        void withDefaultValue_returnsTrue() {
+            assertTrue(StringHelper.equalsDefault(StringHelper.DEFAULT_VALUE));
+        }
+
+        @Test
+        void withOtherValue_returnsFalse() {
+            assertFalse(StringHelper.equalsDefault("hello"));
+        }
+    }
+
+    @Nested
     class StartsWith {
 
         @Test
@@ -1962,6 +2962,30 @@ class StringHelperTest {
     }
 
     @Nested
+    class Hash {
+
+        @Test
+        void withNullString_returnsNull() {
+            assertNull(StringHelper.hash(null, "MD5"));
+        }
+
+        @Test
+        void withNullAlgorithm_returnsNull() {
+            assertNull(StringHelper.hash("hello", null));
+        }
+
+        @Test
+        void withInvalidAlgorithm_returnsNull() {
+            assertNull(StringHelper.hash("hello", "NOT-AN-ALGORITHM"));
+        }
+
+        @Test
+        void withValidAlgorithm_returnsHash() {
+            assertEquals("5d41402abc4b2a76b9719d911017c592", StringHelper.hash("hello", "MD5"));
+        }
+    }
+
+    @Nested
     class Md5 {
 
         @Test
@@ -1985,10 +3009,7 @@ class StringHelperTest {
 
         @Test
         void withKnownInput_returnsExpectedHash() {
-            assertEquals(
-                    "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
-                    StringHelper.sha256("hello")
-            );
+            assertEquals("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824", StringHelper.sha256("hello"));
         }
     }
 
@@ -2003,6 +3024,34 @@ class StringHelperTest {
         @Test
         void withChar_returnsUnicodeRepresentation() {
             assertEquals("\\u0041", StringHelper.getUnicode('A'));
+        }
+    }
+
+    @Nested
+    class GetCharacter {
+
+        @Test
+        void withNullArray_returnsNull() {
+            assertNull(StringHelper.getCharacter((String[]) null));
+        }
+
+        @Test
+        void withValidCodePoints_returnsCharacters() {
+            assertEquals("AB", StringHelper.getCharacter("U+0041", "U+0042"));
+        }
+    }
+
+    @Nested
+    class GetHexStringFromARGB {
+
+        @Test
+        void withValidComponents_returnsHexString() {
+            assertEquals("#FF0080FF", StringHelper.getHexStringFromARGB(255, 0, 128, 255));
+        }
+
+        @Test
+        void withOutOfRangeComponent_returnsWhite() {
+            assertEquals("#FFFFFFFF", StringHelper.getHexStringFromARGB(256, 0, 0, 0));
         }
     }
 
@@ -2051,6 +3100,20 @@ class StringHelperTest {
         @Test
         void withEscapedBackslash_returnsBackslash() {
             assertEquals("\\", StringHelper.unescapeJavaString("\\\\"));
+        }
+    }
+
+    @Nested
+    class Sha512 {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.sha512(null));
+        }
+
+        @Test
+        void withKnownInput_returnsExpectedHash() {
+            assertEquals("9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043", StringHelper.sha512("hello"));
         }
     }
 
