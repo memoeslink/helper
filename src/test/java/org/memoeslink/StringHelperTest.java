@@ -1530,6 +1530,45 @@ class StringHelperTest {
     }
 
     @Nested
+    class RemoveStartByCount {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.removeStart(null, 2));
+        }
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.removeStart("", 2));
+        }
+
+        @Test
+        void withZeroCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeStart("hello", 0));
+        }
+
+        @Test
+        void withNegativeCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeStart("hello", -1));
+        }
+
+        @Test
+        void withCountWithinLength_removesFirstNChars() {
+            assertEquals("llo", StringHelper.removeStart("hello", 2));
+        }
+
+        @Test
+        void withCountEqualToLength_returnsEmpty() {
+            assertEquals("", StringHelper.removeStart("hello", 5));
+        }
+
+        @Test
+        void withCountGreaterThanLength_returnsEmpty() {
+            assertEquals("", StringHelper.removeStart("hello", 10));
+        }
+    }
+
+    @Nested
     class RemoveEnd {
 
         @Test
@@ -1540,6 +1579,45 @@ class StringHelperTest {
         @Test
         void withNonMatchingSuffix_returnsOriginal() {
             assertEquals("hello", StringHelper.removeEnd("hello", "z"));
+        }
+    }
+
+    @Nested
+    class RemoveEndByCount {
+
+        @Test
+        void withNull_returnsNull() {
+            assertNull(StringHelper.removeEnd(null, 2));
+        }
+
+        @Test
+        void withEmpty_returnsEmpty() {
+            assertEquals("", StringHelper.removeEnd("", 2));
+        }
+
+        @Test
+        void withZeroCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeEnd("hello", 0));
+        }
+
+        @Test
+        void withNegativeCount_returnsOriginal() {
+            assertEquals("hello", StringHelper.removeEnd("hello", -1));
+        }
+
+        @Test
+        void withCountWithinLength_removesLastNChars() {
+            assertEquals("hel", StringHelper.removeEnd("hello", 2));
+        }
+
+        @Test
+        void withCountEqualToLength_returnsEmpty() {
+            assertEquals("", StringHelper.removeEnd("hello", 5));
+        }
+
+        @Test
+        void withCountGreaterThanLength_returnsEmpty() {
+            assertEquals("", StringHelper.removeEnd("hello", 10));
         }
     }
 

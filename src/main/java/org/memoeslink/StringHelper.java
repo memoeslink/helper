@@ -611,7 +611,7 @@ public class StringHelper {
      *
      * @param s the string to append to
      * @return the modified string with a trailing line break if {@code s} is not {@code null};
-     * otherwise, returns {@code null}
+     * otherwise, returns the original string
      */
     public static String appendLineBreakIfNotNull(String s) {
         return appendIfNotNull(s, System.lineSeparator());
@@ -802,7 +802,7 @@ public class StringHelper {
      *
      * @param s the string to modify
      * @return the modified string with line breaks added at both ends if {@code s} is not {@code null};
-     * otherwise, returns {@code null}
+     * otherwise, returns the original string
      */
     public static String affixLineBreaksIfNotNull(String s) {
         return affixIfNotNull(s, System.lineSeparator(), System.lineSeparator());
@@ -2835,6 +2835,22 @@ public class StringHelper {
     }
 
     /**
+     * Removes the first {@code n} characters from the string.
+     *
+     * @param s the original string
+     * @param n the number of characters to remove from the start of the string
+     * @return the string with the first {@code n} characters removed; the original string if {@code s} is
+     * {@code null} or {@code n} is less than or equal to 0; or an empty string if {@code n} is greater than
+     * or equal to the string's length
+     */
+    public static String removeStart(String s, int n) {
+        if (isNullOrEmpty(s) || n <= 0) return s;
+
+        if (n >= s.length()) return EMPTY;
+        return s.substring(n);
+    }
+
+    /**
      * Removes the start of the string if it matches any of the given prefixes.
      *
      * @param s        the original string
@@ -2854,6 +2870,22 @@ public class StringHelper {
      */
     public static String removeEnd(String s, String suffix) {
         return replaceEnd(s, suffix, EMPTY);
+    }
+
+    /**
+     * Removes the last {@code n} characters from the string.
+     *
+     * @param s the original string
+     * @param n the number of characters to remove from the end of the string
+     * @return the string with the last {@code n} characters removed; the original string if {@code s} is
+     * {@code null} or {@code n} is less than or equal to 0; or an empty string if {@code n} is greater than
+     * or equal to the string's length
+     */
+    public static String removeEnd(String s, int n) {
+        if (isNullOrEmpty(s) || n <= 0) return s;
+
+        if (n >= s.length()) return EMPTY;
+        return s.substring(0, s.length() - n);
     }
 
     /**
